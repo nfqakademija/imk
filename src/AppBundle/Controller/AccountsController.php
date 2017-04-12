@@ -12,6 +12,9 @@ class AccountsController extends Controller
      */
     public function loginAction()
     {
+        // Login page.
+        // Possibly remove this route
+        // and replace it with a modal pop-up on the index page?
         return $this->render('AppBundle:Accounts:login.html.twig', [
             // ...
         ]);
@@ -22,6 +25,7 @@ class AccountsController extends Controller
      */
     public function registerAction()
     {
+        // Registration form
         return $this->render('AppBundle:Accounts:register.html.twig', [
             //...
         ]);

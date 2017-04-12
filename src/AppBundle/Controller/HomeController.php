@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomeController extends Controller
 {
@@ -22,11 +23,17 @@ class HomeController extends Controller
      */
     public function voteAction($decisionId, $contentId)
     {
-        //balsavimas uz kazkuri is decision
-        //template'o nera, nes naujas puslapis neatsidarys
-        //ir tiesiog +1 balsa priskaiciuos?
-        return new Response('Balsuojam uz decision nr. : ' . $decisionId .
-            '. Pasirinktas ' . $contentId . ' variantas'
-        );
+        //action for voting for selected decision post
+        //When voting icon is clicked, the vote counter is incremented by 1
+        //therefore no twig template is used
+
+        $response = new JsonResponse();
+        $response->setData([
+            'decisionId' => $decisionId,
+            'contentId' => $contentId,
+            'status' => 'success'
+        ]);
+
+        return $response;
     }
 }

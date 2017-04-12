@@ -12,7 +12,7 @@ class DecisionsController extends Controller
      */
     public function newDecisionAction()
     {
-        //Naujas decision'o kurimas
+        // Decision creation form
         return $this->render('AppBundle:Decisions:new_decision.html.twig', [// ...
         ]);
     }

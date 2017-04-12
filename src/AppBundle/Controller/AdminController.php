@@ -15,7 +15,7 @@ class AdminController extends Controller
      */
     public function indexAction()
     {
-        //admin paneles pagrindinis langas
+        // Admin panel: index page
         return $this->render('AppBundle:Admin:index.html.twig', [
             // ...
         ]);
@@ -26,7 +26,9 @@ class AdminController extends Controller
      */
     public function editUserAction($id)
     {
-        //naudotojo redagavimas
+        // Admin panel: user editing panel
+        // Form to change the following user data:
+        // password, email...
         return $this->render('AppBundle:Admin:edit_user.html.twig', [
             'id' => $id
         ]);
@@ -37,7 +39,7 @@ class AdminController extends Controller
      */
     public function disableUserAction($id)
     {
-        //naudotojo paskyros isjungimas
+        // Admin panel: interface for disabling rule violating or other users
         return $this->render('AppBundle:Admin:disable_user.html.twig', [
             'id' => $id
         ]);
@@ -48,7 +50,7 @@ class AdminController extends Controller
      */
     public function removePostAction($id)
     {
-        //decision'o istrynimas
+        // Admin panel: post (Decision) removal interface
         return $this->render('AppBundle:Admin:remove_post.html.twig', [
             'id' => $id
         ]);
