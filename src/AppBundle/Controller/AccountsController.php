@@ -12,8 +12,9 @@ class AccountsController extends Controller
      */
     public function loginAction()
     {
-        return $this->render('AppBundle:Accounts:login.html.twig', array(// ...
-        ));
+        return $this->render('AppBundle:Accounts:login.html.twig', [
+            // ...
+        ]);
     }
 
     /**
@@ -21,8 +22,9 @@ class AccountsController extends Controller
      */
     public function registerAction()
     {
-        return $this->render('AppBundle:Accounts:register.html.twig', array(// ...
-        ));
+        return $this->render('AppBundle:Accounts:register.html.twig', [
+            //...
+        ]);
     }
 
 }

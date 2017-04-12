@@ -16,8 +16,9 @@ class AdminController extends Controller
     public function indexAction()
     {
         //admin paneles pagrindinis langas
-        return $this->render('AppBundle:Admin:index.html.twig', array(// ...
-        ));
+        return $this->render('AppBundle:Admin:index.html.twig', [
+            // ...
+        ]);
     }
 
     /**
@@ -26,9 +27,9 @@ class AdminController extends Controller
     public function editUserAction($id)
     {
         //naudotojo redagavimas
-        return $this->render('AppBundle:Admin:edit_user.html.twig', array(
+        return $this->render('AppBundle:Admin:edit_user.html.twig', [
             'id' => $id
-        ));
+        ]);
     }
 
     /**
@@ -37,9 +38,9 @@ class AdminController extends Controller
     public function disableUserAction($id)
     {
         //naudotojo paskyros isjungimas
-        return $this->render('AppBundle:Admin:disable_user.html.twig', array(
+        return $this->render('AppBundle:Admin:disable_user.html.twig', [
             'id' => $id
-        ));
+        ]);
     }
 
     /**
@@ -48,9 +49,9 @@ class AdminController extends Controller
     public function removePostAction($id)
     {
         //decision'o istrynimas
-        return $this->render('AppBundle:Admin:remove_post.html.twig', array(
+        return $this->render('AppBundle:Admin:remove_post.html.twig', [
             'id' => $id
-        ));
+        ]);
     }
 
 }
