@@ -22,7 +22,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/edit", name="admin_user_index")
+     * @Route("/users", name="admin_user_index")
      */
     public function userIndexAction()
     {
@@ -35,7 +35,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="admin_user_edit")
+     * @Route("/users/edit/{id}", name="admin_user_edit")
      */
     public function editUserAction($id)
     {
@@ -47,7 +47,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/disable/{id}", name="admin_user_disable")
+     * @Route("/users/disable/{id}", name="admin_user_disable")
      */
     public function disableUserAction($id)
     {
