@@ -1,26 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>{% block title %}{{ "My project" }}{% endblock %}</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico')}}">
+    <title>{% block title %}{{ "Ponder" }}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
     {% endblock %}
     {% block canonical_meta %}{% endblock %}
 </head>
 <body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    {% block nav %}{% endblock %}
+</nav>
+
+{#post example#}
 <div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default center-block">
+                <div class="panel-heading">
+                    <ul class="list-inline">
+                        <li class="user-name"><a>User123:</a></li>
+                        <li >Adoption?</li>
+                        <li class="pull-right post-time">15 min</li>
+                    </ul>
+                </div>
+                <div class="crop panel-images row">
+                    <img src="images/opt1.jpg">
+                    <img src="images/opt2.jpg">
+                </div>
+                <div class="panel-body post-tags">
+                    <a>#kittens</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
     {% block container %}
-        {% block header %}
-            {% include "::inc/header.html.twig" %}
+        {% block body %}
         {% endblock %}
-        {% block body %}{% endblock %}
     {% endblock %}
 </div>
 {% block footer %}
-{% include "::inc/footer.html.twig" %}
+    {% include "::inc/footer.html.twig" %}
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/script.js') }}"></script>

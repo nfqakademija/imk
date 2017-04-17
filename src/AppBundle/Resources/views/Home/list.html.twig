@@ -3,9 +3,29 @@
 {% block body %}
 
     {% for post in posts %}
-        {{ post.title }} <br/>
-        <p>{{ post.content }}</p>
-        <hr/>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="list-inline">
+                                <li>User123:</li>
+                                <li>{{ post.title }}</li>
+                                <li class="pull-right">1 week</li>
+                            </ul>
+                        </div>
+                        <div class="crop panel-images row">
+                            {{ post.images }}
+                        </div>
+                        <div class="panel-body">
+                            <span class="theme-tags"><a>{{ post.tags }}</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     {% endfor %}
 
 {% endblock %}

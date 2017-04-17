@@ -1,26 +1,66 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Homepage - {{ parent() }}{% endblock %}
+{% block title %} Main - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
     {{ parent() }}
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-weight: 100;
-            font-family: 'Lato';
-        }
-
-        .title {
-            margin: 20px auto;
-            text-align: center;
-            font-size: 96px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
 {% endblock %}
 
-{% block body %}
-    <div class="title">Komanda IMK</div>
+{% block canonical_meta %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{% endblock %}
+
+{% block nav %}
+    <div id="nav-head" class="navbar-header col-md-4 center-nav">
+        <a class="navbar-brand pull-right" href="#">
+            <span>
+                <img id="qm" class="img-responsive2" src="{{ asset('images/qm.png') }}">
+                ponder
+            </span>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse">
+        <div class="col-md-4 text-center center-nav">
+            <form class="navbar-form" role="search">
+                <div id="imaginary_container">
+                    <div class="input-group stylish-input-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <span class="input-group-addon" id="custom-search-btn">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="collapse navbar-collapse col-md-4 text-left center-nav">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <!--to main page-->
+                    <a href="#">
+                        <img class="menu-icon" src="{{ asset('images/main.png') }}">
+                    </a>
+                </li>
+                <li>
+                    <!--notifications-->
+                    <a href="#">
+                        <img class="menu-icon" src="{{ asset('images/heart.png') }}">
+                    </a>
+                </li>
+                <li>
+                    <!--to account page-->
+                    <a href="#">
+                        <img class="menu-icon" src="{{ asset('images/user.png') }}">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block container %}
 {% endblock %}
