@@ -1,7 +1,120 @@
-{% extends "::base.html.twig" %}
+{% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
 
-{% block title %}AppBundle:Admin:index{% endblock %}
-
-{% block body %}
-    <h1>Welcome to the Admin:index page</h1>
+{% block title %}Decisions{% endblock %}
+{% block page_title %}Admin{% endblock %}
+{% block avanzu_sidebar %}
+    {{ parent() }}
+    <ul class="sidebar-menu">
+        <li class="header">Menu</li>
+        <!-- Optionally, you can add icons to the links -->
+        <li><a href="{{ path('admin_home') }}"><span>Dashboards</span></a></li>
+        <li><a href="{{ path('admin_user_index') }}"><span>Users</span></a></li>
+        <li><a href="{{ path('admin_posts_index') }}"><span>Posts</span></a></li>
+    </ul>
 {% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-lg-6 col-xs-6">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>3</h3>
+
+                    <p>Users</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-xs-6">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>15</h3>
+
+                    <p>Decisions</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-chatboxes"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline -->
+
+    <ul class="timeline">
+
+        <li class="time-label">
+                  <span class="bg-green">
+                    6 Jan. 2017
+                  </span>
+        </li>
+
+        <li>
+            <i class="fa fa-camera bg-purple"></i>
+
+            <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
+
+                <h3 class="timeline-header"><a href="#">User 1</a> uploaded new decision</h3>
+
+                <div class="timeline-body">
+                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                </div>
+            </div>
+        </li>
+
+        <li class="time-label">
+                  <span class="bg-green">
+                    4 Jan. 2017
+                  </span>
+        </li>
+
+        <li>
+            <i class="fa fa-user bg-aqua"></i>
+
+            <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
+
+                <h3 class="timeline-header no-border">New user: <a href="#">Petras</a></h3>
+            </div>
+        </li>
+
+        <li>
+            <i class="fa fa-camera bg-purple"></i>
+
+            <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
+
+                <h3 class="timeline-header"><a href="#">User 3</a> uploaded new decision</h3>
+
+                <div class="timeline-body">
+                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                </div>
+            </div>
+        </li>
+
+        <li>
+            <i class="fa fa-clock-o bg-gray"></i>
+        </li>
+    </ul>
+{% endblock %}
+
+
+
+{% block avanzu_admin_footer %}
+    <footer class="main-footer">
+        <strong>2017 <a href="https://github.com/nfqakademija/imk">Komanda IMK</a>.</strong>
+    </footer>
+{% endblock %}
+
