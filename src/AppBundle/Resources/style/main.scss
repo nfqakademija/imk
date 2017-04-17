@@ -93,7 +93,23 @@ body {
   border-color: rgba(189, 183, 206, 0.9);
   background-color: #eae5ee;
 }
+.stylish-input-group {
+  input::-webkit-input-placeholder {
+    color: white !important;
+  }
 
+  input:-moz-placeholder {
+    color: white !important;
+  }
+
+  input::-moz-placeholder {
+    color: white !important;
+  }
+
+  input:-ms-input-placeholder {
+    color: white !important;
+  }
+}
 .stylish-input-group button {
   border: 0;
   background: transparent;
@@ -115,22 +131,6 @@ body {
   border-right: solid 1px rgba(189, 183, 206, 0.9);
   border-top: solid 1px rgba(189, 183, 206, 0.9);
   color: white;
-}
-
-input::-webkit-input-placeholder {
-  color: white !important;
-}
-
-input:-moz-placeholder {
-  color: white !important;
-}
-
-input::-moz-placeholder {
-  color: white !important;
-}
-
-input:-ms-input-placeholder {
-  color: white !important;
 }
 
 input, select, textarea {
@@ -248,7 +248,7 @@ a:hover, a:focus {
 }
 
 .pointable{
-  cursor: pointer;
+  cursor: po;
 }
 
 @media screen and (max-width: 767px) {
@@ -271,4 +271,36 @@ a:hover, a:focus {
   .navbar-default .navbar-collapse, .navbar-default .navbar-form {
     border-color: transparent;
   }
+}
+
+input::-webkit-input-placeholder {
+  color: #9f86c0 !important;
+}
+
+input:-moz-placeholder {
+  color: #9f86c0 !important;
+}
+
+input::-moz-placeholder {
+  color: #9f86c0 !important;
+}
+
+input:-ms-input-placeholder {
+  color: #9f86c0 !important;
+}
+
+hr {
+  border-color: #9f86c0;
+}
+
+.registration {
+  margin-top: 30px;
+}
+
+small {
+  color: #9f86c0;
+}
+
+button {
+  background-color: white;
 }

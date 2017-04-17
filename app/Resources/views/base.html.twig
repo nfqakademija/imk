@@ -5,80 +5,26 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+        <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
     {% endblock %}
-    {% block canonical_meta %}{% endblock %}
+    {% block canonical_meta %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% endblock %}
 </head>
+
 <body>
-<nav class="navbar navbar-default navbar-fixed-top">
-    {% block nav %}{% endblock %}
-</nav>
 
-{#post example#}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 post-block">
-            <div class="panel panel-default center-block">
-                <div class="panel-heading">
-                    <ul class="list-inline">
-                        <li class="user-name"><a>User123:</a></li>
-                        <li >Adoption?</li>
-                        <li class="pull-right post-time">15 min</li>
-                    </ul>
-                </div>
-                <div class="crop panel-images row">
-                    <label for="radio-1">
-                        <input id="radio-1" type="radio" name="post-1" value="left" />
-                        <img src="images/opt1.jpg">
-                    </label>
-                    <label for="radio-2">
-                        <input id="radio-2" type="radio" name="post-1" value="right" />
-                        <img src="images/opt2.jpg">
-                    </label>
-                </div>
-                <div class="panel-body post-tags">
-                    <a class="pointable">#kittens</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{% block header %}
+    {% include "::inc/header.html.twig" %}
+{% endblock %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 post-block">
-            <div class="panel panel-default center-block">
-                <div class="panel-heading">
-                    <ul class="list-inline">
-                        <li class="user-name"><a>Slim_Shady:</a></li>
-                        <li ></li>
-                        <li class="pull-right post-time">1 h</li>
-                    </ul>
-                </div>
-                <div class="crop panel-images row">
-                    <label for="radio-3">
-                        <input id="radio-3" type="radio" name="post-2" value="left" />
-                        <img src="images/opt3.jpg">
-                    </label>
-                    <label for="radio-4">
-                        <input id="radio-4" type="radio" name="post-2" value="right" />
-                        <img src="images/opt4.jpg">
-                    </label>
-                </div>
-                <div class="panel-body post-tags">
-                    <a class="pointable">#street</a>
-                    <a class="pointable">#style</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div>
-    {% block container %}
-        {% block body %}
-        {% endblock %}
+{% block container %}
+    {% block body %}
     {% endblock %}
-</div>
+{% endblock %}
+
 {% block footer %}
     {% include "::inc/footer.html.twig" %}
 {% endblock %}
@@ -86,4 +32,5 @@
     <script src="{{ asset('js/script.js') }}"></script>
 {% endblock %}
 </body>
+
 </html>
