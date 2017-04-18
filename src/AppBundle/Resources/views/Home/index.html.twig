@@ -1,26 +1,71 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Homepage - {{ parent() }}{% endblock %}
+{% block title %} Main - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
     {{ parent() }}
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-weight: 100;
-            font-family: 'Lato';
-        }
-
-        .title {
-            margin: 20px auto;
-            text-align: center;
-            font-size: 96px;
-        }
-    </style>
 {% endblock %}
 
 {% block body %}
-    <div class="title">Komanda IMK</div>
+
+{#post example#}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 post-block">
+            <div class="panel panel-default center-block">
+                <div class="panel-heading">
+                    <ul class="list-inline">
+                        <li class="user-name"><a>User123:</a></li>
+                        <li>Adoption?</li>
+                        <li class="pull-right post-time">15 min</li>
+                    </ul>
+                </div>
+                <div class="crop panel-images row">
+                    <label for="radio-1">
+                        <input id="radio-1" type="radio" name="post-1" value="left"/>
+                        <img src="images/opt1.jpg">
+                    </label>
+                    <label for="radio-2">
+                        <input id="radio-2" type="radio" name="post-1" value="right"/>
+                        <img src="images/opt2.jpg">
+                    </label>
+                </div>
+                <div class="panel-body post-tags">
+                    <a class="pointable">#kittens</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 post-block">
+            <div class="panel panel-default center-block">
+                <div class="panel-heading">
+                    <ul class="list-inline">
+                        <li class="user-name"><a>Slim_Shady:</a></li>
+                        <li></li>
+                        <li class="pull-right post-time">1 h</li>
+                    </ul>
+                </div>
+                <div class="crop panel-images row">
+                    <label for="radio-3">
+                        <input id="radio-3" type="radio" name="post-2" value="left"/>
+                        <img src="images/opt3.jpg">
+                    </label>
+                    <label for="radio-4">
+                        <input id="radio-4" type="radio" name="post-2" value="right"/>
+                        <img src="images/opt4.jpg">
+                    </label>
+                </div>
+                <div class="panel-body post-tags">
+                    <a class="pointable">#street</a>
+                    <a class="pointable">#style</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
