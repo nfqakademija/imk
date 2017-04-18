@@ -29,7 +29,7 @@ class AdminController extends Controller
         // Admin panel: user editing panel
         // Form to change the following user data:
         // password, email...
-        return $this->render('AppBundle:Admin:edit_user_index.html.twig', [
+        return $this->render('AppBundle:Admin:users_index.html.twig', [
 
         ]);
     }
