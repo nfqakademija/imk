@@ -22,6 +22,22 @@ class AdminController extends Controller
     }
 
     /**
+     * @Route("/login", name="admin_login")
+     */
+    public function loginAction()
+    {
+        // Admin panel: login page
+        $authUtils = $this->get('security.authentication_utils');
+        $error = $authUtils->getLastAuthenticationError();
+        $lastUsername = $authUtils->getLastUsername();
+
+        return $this->render('AppBundle:Admin:login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+        ]);
+    }
+
+    /**
      * @Route("/users", name="admin_user_index")
      */
     public function userIndexAction()
