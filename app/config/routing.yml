@@ -1,3 +1,7 @@
 app:
     resource: "@AppBundle/Controller"
     type: annotation
+avanzu_admin_profile:
+    path: /admin
+avanzu_admin_logout:
+    path: /admin/logout
