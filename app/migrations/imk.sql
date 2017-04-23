@@ -32,7 +32,8 @@ FOREIGN KEY (authorId) REFERENCES Users (userId) ON UPDATE CASCADE ON DELETE CAS
 CREATE TABLE IF NOT EXISTS `Categories` ( 
 `categoryId`        INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `title`             VARCHAR(100) NOT NULL DEFAULT '',
-INDEX (title)
+`hitsCount`         INT UNSIGNED NOT NULL DEFAULT '0', # category/tag click count
+INDEX (hitsCount)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `PollsCategories` ( 
@@ -64,12 +65,12 @@ FOREIGN KEY (pollId) REFERENCES Polls (pollId) ON UPDATE CASCADE ON DELETE CASCA
 FOREIGN KEY (voterId) REFERENCES Users (userId) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `UsersCategoriesHits` ( 
+CREATE TABLE IF NOT EXISTS `UsersFavoriteCategories` ( 
 `id`                INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `userId`            INT UNSIGNED NOT NULL,
 `categoryId`        INT UNSIGNED NOT NULL,
-`hitsCount`         INT UNSIGNED NOT NULL, # category/tag click count
-INDEX (userId,categoryId),
+`lastUseDate`       INT UNSIGNED NOT NULL DEFAULT '0', # unix timestamp
+INDEX (userId,categoryId,lastUseDate),
 FOREIGN KEY (userId) REFERENCES Users (userId) ON UPDATE CASCADE ON DELETE CASCADE,
 FOREIGN KEY (categoryId) REFERENCES Categories (categoryId) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4;
