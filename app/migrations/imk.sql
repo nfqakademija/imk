@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS `Polls` (
 `updateDate`        INT UNSIGNED NOT NULL DEFAULT '0', # unix timestamp
 `language`          CHAR(2) CHARACTER SET ascii NOT NULL DEFAULT 'en',
 `title`             VARCHAR(250) NOT NULL DEFAULT '',
-INDEX (authorId,createDate,updateDate),
+`hitsCount`         INT UNSIGNED NOT NULL DEFAULT '0', # votesCount of all options of a poll
+INDEX (authorId,createDate,updateDate,hitsCount),
 FOREIGN KEY (authorId) REFERENCES Users (userId) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4;
 
