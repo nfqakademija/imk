@@ -3,19 +3,21 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * Users
  *
  * @ORM\Table(name="Users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  */
-class Users
+class Users implements UserInterface, \Serializable
 {
     /**
      * @var string
      *
-     * @ORM\Column(name="userName", type="string", length=32, nullable=false)
+     * @ORM\Column(name="userName", type="string", length=32, unique=true, nullable=false)
      */
     private $userName;
 
@@ -29,7 +31,7 @@ class Users
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=64, nullable=false)
+     * @ORM\Column(name="email", type="string", length=64, unique=true, nullable=false)
      */
     private $email = '';
 
@@ -101,7 +103,7 @@ class Users
      *
      * @ORM\Column(name="userId", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $userId;
 
@@ -403,5 +405,46 @@ class Users
     public function getUserId()
     {
         return $this->userId;
+    }
+
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->userId,
+            $this->userName,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->userId,
+            $this->userName,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 }
