@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Countries
+ * Country
  *
  * @ORM\Table(name="Countries", indexes={@ORM\Index(name="geonameId", columns={"geonameId"}), @ORM\Index(name="localeCode", columns={"localeCode"}), @ORM\Index(name="countryIsoCode", columns={"countryIsoCode"})})
  * @ORM\Entity
  */
-class Countries
+class Country
 {
     /**
      * @var integer
@@ -56,7 +56,7 @@ class Countries
      *
      * @param integer $geonameId
      *
-     * @return Countries
+     * @return Country
      */
     public function setGeonameId($geonameId)
     {
@@ -80,7 +80,7 @@ class Countries
      *
      * @param string $localeCode
      *
-     * @return Countries
+     * @return Country
      */
     public function setLocaleCode($localeCode)
     {
@@ -104,7 +104,7 @@ class Countries
      *
      * @param string $countryIsoCode
      *
-     * @return Countries
+     * @return Country
      */
     public function setCountryIsoCode($countryIsoCode)
     {
@@ -128,7 +128,7 @@ class Countries
      *
      * @param string $countryName
      *
-     * @return Countries
+     * @return Country
      */
     public function setCountryName($countryName)
     {

@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Categories
+ * Category
  *
  * @ORM\Table(name="Categories", indexes={@ORM\Index(name="hitsCount", columns={"hitsCount"})})
  * @ORM\Entity
  */
-class Categories
+class Category
 {
     /**
      * @var string
@@ -42,7 +42,7 @@ class Categories
      *
      * @param string $title
      *
-     * @return Categories
+     * @return Category
      */
     public function setTitle($title)
     {
@@ -66,7 +66,7 @@ class Categories
      *
      * @param integer $hitsCount
      *
-     * @return Categories
+     * @return Category
      */
     public function setHitsCount($hitsCount)
     {

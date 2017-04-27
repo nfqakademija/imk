@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Polls
+ * Poll
  *
  * @ORM\Table(name="Polls", indexes={@ORM\Index(name="authorId", columns={"authorId", "createDate", "updateDate", "hitsCount"})})
  * @ORM\Entity
  */
-class Polls
+class Poll
 {
     /**
      * @var integer
@@ -57,9 +57,9 @@ class Polls
     private $pollId;
 
     /**
-     * @var \AppBundle\Entity\Users
+     * @var \AppBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="authorId", referencedColumnName="userId")
      * })
@@ -73,7 +73,7 @@ class Polls
      *
      * @param integer $createDate
      *
-     * @return Polls
+     * @return Poll
      */
     public function setCreateDate($createDate)
     {
@@ -97,7 +97,7 @@ class Polls
      *
      * @param integer $updateDate
      *
-     * @return Polls
+     * @return Poll
      */
     public function setUpdateDate($updateDate)
     {
@@ -121,7 +121,7 @@ class Polls
      *
      * @param string $language
      *
-     * @return Polls
+     * @return Poll
      */
     public function setLanguage($language)
     {
@@ -145,7 +145,7 @@ class Polls
      *
      * @param string $title
      *
-     * @return Polls
+     * @return Poll
      */
     public function setTitle($title)
     {
@@ -169,7 +169,7 @@ class Polls
      *
      * @param integer $hitsCount
      *
-     * @return Polls
+     * @return Poll
      */
     public function setHitsCount($hitsCount)
     {
@@ -201,11 +201,11 @@ class Polls
     /**
      * Set authorId
      *
-     * @param \AppBundle\Entity\Users $authorId
+     * @param \AppBundle\Entity\User $authorId
      *
-     * @return Polls
+     * @return Poll
      */
-    public function setAuthorId(\AppBundle\Entity\Users $authorId = null)
+    public function setAuthorId(\AppBundle\Entity\User $authorId = null)
     {
         $this->authorId = $authorId;
 
@@ -215,7 +215,7 @@ class Polls
     /**
      * Get authorId
      *
-     * @return \AppBundle\Entity\Users
+     * @return \AppBundle\Entity\User
      */
     public function getAuthorId()
     {

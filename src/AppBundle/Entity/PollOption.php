@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PollsOptions
+ * PollOption
  *
  * @ORM\Table(name="PollsOptions", indexes={@ORM\Index(name="pollId", columns={"pollId"})})
  * @ORM\Entity
  */
-class PollsOptions
+class PollOption
 {
     /**
      * @var string
@@ -36,9 +36,9 @@ class PollsOptions
     private $optionId;
 
     /**
-     * @var \AppBundle\Entity\Polls
+     * @var \AppBundle\Entity\Poll
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Polls")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -52,7 +52,7 @@ class PollsOptions
      *
      * @param string $content
      *
-     * @return PollsOptions
+     * @return PollOption
      */
     public function setContent($content)
     {
@@ -76,7 +76,7 @@ class PollsOptions
      *
      * @param integer $votesCount
      *
-     * @return PollsOptions
+     * @return PollOption
      */
     public function setVotesCount($votesCount)
     {
@@ -108,11 +108,11 @@ class PollsOptions
     /**
      * Set pollId
      *
-     * @param \AppBundle\Entity\Polls $pollId
+     * @param \AppBundle\Entity\Poll $pollId
      *
-     * @return PollsOptions
+     * @return PollOption
      */
-    public function setPollId(\AppBundle\Entity\Polls $pollId = null)
+    public function setPollId(\AppBundle\Entity\Poll $pollId = null)
     {
         $this->pollId = $pollId;
 
@@ -122,7 +122,7 @@ class PollsOptions
     /**
      * Get pollId
      *
-     * @return \AppBundle\Entity\Polls
+     * @return \AppBundle\Entity\Poll
      */
     public function getPollId()
     {

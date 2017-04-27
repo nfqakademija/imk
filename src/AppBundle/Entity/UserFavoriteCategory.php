@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UsersFavoriteCategories
+ * UserFavoriteCategory
  *
  * @ORM\Table(name="UsersFavoriteCategories", indexes={@ORM\Index(name="userId", columns={"userId", "categoryId", "lastUseDate"})})
  * @ORM\Entity
  */
-class UsersFavoriteCategories
+class UserFavoriteCategory
 {
     /**
      * @var integer
@@ -29,9 +29,9 @@ class UsersFavoriteCategories
     private $id;
 
     /**
-     * @var \AppBundle\Entity\Users
+     * @var \AppBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userId", referencedColumnName="userId")
      * })
@@ -39,9 +39,9 @@ class UsersFavoriteCategories
     private $userId;
 
     /**
-     * @var \AppBundle\Entity\Categories
+     * @var \AppBundle\Entity\Category
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categories")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")
      * })
@@ -55,7 +55,7 @@ class UsersFavoriteCategories
      *
      * @param integer $lastUseDate
      *
-     * @return UsersFavoriteCategories
+     * @return UserFavoriteCategory
      */
     public function setLastUseDate($lastUseDate)
     {
@@ -87,11 +87,11 @@ class UsersFavoriteCategories
     /**
      * Set userId
      *
-     * @param \AppBundle\Entity\Users $userId
+     * @param \AppBundle\Entity\User $userId
      *
-     * @return UsersFavoriteCategories
+     * @return UserFavoriteCategory
      */
-    public function setUserId(\AppBundle\Entity\Users $userId = null)
+    public function setUserId(\AppBundle\Entity\User $userId = null)
     {
         $this->userId = $userId;
 
@@ -101,7 +101,7 @@ class UsersFavoriteCategories
     /**
      * Get userId
      *
-     * @return \AppBundle\Entity\Users
+     * @return \AppBundle\Entity\User
      */
     public function getUserId()
     {
@@ -111,11 +111,11 @@ class UsersFavoriteCategories
     /**
      * Set categoryId
      *
-     * @param \AppBundle\Entity\Categories $categoryId
+     * @param \AppBundle\Entity\Category $categoryId
      *
-     * @return UsersFavoriteCategories
+     * @return UserFavoriteCategory
      */
-    public function setCategoryId(\AppBundle\Entity\Categories $categoryId = null)
+    public function setCategoryId(\AppBundle\Entity\Category $categoryId = null)
     {
         $this->categoryId = $categoryId;
 
@@ -125,7 +125,7 @@ class UsersFavoriteCategories
     /**
      * Get categoryId
      *
-     * @return \AppBundle\Entity\Categories
+     * @return \AppBundle\Entity\Category
      */
     public function getCategoryId()
     {
