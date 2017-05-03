@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PollVoter
  *
- * @ORM\Table(name="PollsVoters", indexes={@ORM\Index(name="pollId", columns={"pollId", "voterId"})})
+ * @ORM\Table(name="PollsVoters", indexes={@ORM\Index(name="pollId", columns={"pollId"}), @ORM\Index(name="voterId", columns={"voterId"})})
  * @ORM\Entity
  */
 class PollVoter
@@ -36,9 +36,9 @@ class PollVoter
     private $id;
 
     /**
-     * @var \AppBundle\Entity\Poll
+     * @var \AppBundle\Entity\Polls
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Polls")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -46,9 +46,9 @@ class PollVoter
     private $pollId;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var \AppBundle\Entity\Users
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="voterId", referencedColumnName="userId")
      * })
@@ -118,11 +118,11 @@ class PollVoter
     /**
      * Set pollId
      *
-     * @param \AppBundle\Entity\Poll $pollId
+     * @param \AppBundle\Entity\Polls $pollId
      *
      * @return PollVoter
      */
-    public function setPollId(\AppBundle\Entity\Poll $pollId = null)
+    public function setPollId(\AppBundle\Entity\Polls $pollId = null)
     {
         $this->pollId = $pollId;
 
@@ -132,7 +132,7 @@ class PollVoter
     /**
      * Get pollId
      *
-     * @return \AppBundle\Entity\Poll
+     * @return \AppBundle\Entity\Polls
      */
     public function getPollId()
     {
@@ -142,11 +142,11 @@ class PollVoter
     /**
      * Set voterId
      *
-     * @param \AppBundle\Entity\User $voterId
+     * @param \AppBundle\Entity\Users $voterId
      *
      * @return PollVoter
      */
-    public function setVoterId(\AppBundle\Entity\User $voterId = null)
+    public function setVoterId(\AppBundle\Entity\Users $voterId = null)
     {
         $this->voterId = $voterId;
 
@@ -156,7 +156,7 @@ class PollVoter
     /**
      * Get voterId
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\Users
      */
     public function getVoterId()
     {

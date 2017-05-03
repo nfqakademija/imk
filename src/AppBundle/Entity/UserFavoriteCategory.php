@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserFavoriteCategory
  *
- * @ORM\Table(name="UsersFavoriteCategories", indexes={@ORM\Index(name="userId", columns={"userId", "categoryId", "lastUseDate"})})
+ * @ORM\Table(name="UsersFavoriteCategories", indexes={@ORM\Index(name="categoryId", columns={"categoryId"}), @ORM\Index(name="userId", columns={"userId"}), @ORM\Index(name="lastUseDate", columns={"lastUseDate"})})
  * @ORM\Entity
  */
 class UserFavoriteCategory
@@ -29,9 +29,9 @@ class UserFavoriteCategory
     private $id;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var \AppBundle\Entity\Users
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userId", referencedColumnName="userId")
      * })
@@ -39,9 +39,9 @@ class UserFavoriteCategory
     private $userId;
 
     /**
-     * @var \AppBundle\Entity\Category
+     * @var \AppBundle\Entity\Categories
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categories")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")
      * })
@@ -87,11 +87,11 @@ class UserFavoriteCategory
     /**
      * Set userId
      *
-     * @param \AppBundle\Entity\User $userId
+     * @param \AppBundle\Entity\Users $userId
      *
      * @return UserFavoriteCategory
      */
-    public function setUserId(\AppBundle\Entity\User $userId = null)
+    public function setUserId(\AppBundle\Entity\Users $userId = null)
     {
         $this->userId = $userId;
 
@@ -101,7 +101,7 @@ class UserFavoriteCategory
     /**
      * Get userId
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\Users
      */
     public function getUserId()
     {
@@ -111,11 +111,11 @@ class UserFavoriteCategory
     /**
      * Set categoryId
      *
-     * @param \AppBundle\Entity\Category $categoryId
+     * @param \AppBundle\Entity\Categories $categoryId
      *
      * @return UserFavoriteCategory
      */
-    public function setCategoryId(\AppBundle\Entity\Category $categoryId = null)
+    public function setCategoryId(\AppBundle\Entity\Categories $categoryId = null)
     {
         $this->categoryId = $categoryId;
 
@@ -125,7 +125,7 @@ class UserFavoriteCategory
     /**
      * Get categoryId
      *
-     * @return \AppBundle\Entity\Category
+     * @return \AppBundle\Entity\Categories
      */
     public function getCategoryId()
     {

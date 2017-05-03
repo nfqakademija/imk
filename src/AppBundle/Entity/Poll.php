@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Poll
  *
- * @ORM\Table(name="Polls", indexes={@ORM\Index(name="authorId", columns={"authorId", "createDate", "updateDate", "hitsCount"})})
+ * @ORM\Table(name="Polls", indexes={@ORM\Index(name="authorId", columns={"authorId"}), @ORM\Index(name="createDate", columns={"createDate"}), @ORM\Index(name="updateDate", columns={"updateDate"}), @ORM\Index(name="hitsCount", columns={"hitsCount"})})
  * @ORM\Entity
  */
 class Poll
@@ -29,7 +29,7 @@ class Poll
     /**
      * @var string
      *
-     * @ORM\Column(name="language", type="string", length=2, nullable=false)
+     * @ORM\Column(name="language", type="string", nullable=false)
      */
     private $language = 'en';
 
@@ -57,9 +57,9 @@ class Poll
     private $pollId;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var \AppBundle\Entity\Users
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="authorId", referencedColumnName="userId")
      * })
@@ -201,11 +201,11 @@ class Poll
     /**
      * Set authorId
      *
-     * @param \AppBundle\Entity\User $authorId
+     * @param \AppBundle\Entity\Users $authorId
      *
      * @return Poll
      */
-    public function setAuthorId(\AppBundle\Entity\User $authorId = null)
+    public function setAuthorId(\AppBundle\Entity\Users $authorId = null)
     {
         $this->authorId = $authorId;
 
@@ -215,7 +215,7 @@ class Poll
     /**
      * Get authorId
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\Users
      */
     public function getAuthorId()
     {

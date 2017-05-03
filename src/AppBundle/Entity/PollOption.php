@@ -13,6 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class PollOption
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="sequence", type="smallint", nullable=false)
+     */
+    private $sequence = '0';
+
+    /**
      * @var string
      *
      * @ORM\Column(name="content", type="string", length=250, nullable=false)
@@ -36,9 +43,9 @@ class PollOption
     private $optionId;
 
     /**
-     * @var \AppBundle\Entity\Poll
+     * @var \AppBundle\Entity\Polls
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Polls")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -46,6 +53,30 @@ class PollOption
     private $pollId;
 
 
+
+    /**
+     * Set sequence
+     *
+     * @param integer $sequence
+     *
+     * @return PollOption
+     */
+    public function setSequence($sequence)
+    {
+        $this->sequence = $sequence;
+
+        return $this;
+    }
+
+    /**
+     * Get sequence
+     *
+     * @return integer
+     */
+    public function getSequence()
+    {
+        return $this->sequence;
+    }
 
     /**
      * Set content
@@ -108,11 +139,11 @@ class PollOption
     /**
      * Set pollId
      *
-     * @param \AppBundle\Entity\Poll $pollId
+     * @param \AppBundle\Entity\Polls $pollId
      *
      * @return PollOption
      */
-    public function setPollId(\AppBundle\Entity\Poll $pollId = null)
+    public function setPollId(\AppBundle\Entity\Polls $pollId = null)
     {
         $this->pollId = $pollId;
 
@@ -122,7 +153,7 @@ class PollOption
     /**
      * Get pollId
      *
-     * @return \AppBundle\Entity\Poll
+     * @return \AppBundle\Entity\Polls
      */
     public function getPollId()
     {

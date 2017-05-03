@@ -3,21 +3,19 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 
 /**
- * Users
+ * User
  *
  * @ORM\Table(name="Users")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\Entity
  */
-class Users implements UserInterface, \Serializable
+class User
 {
     /**
      * @var string
      *
-     * @ORM\Column(name="userName", type="string", length=32, unique=true, nullable=false)
+     * @ORM\Column(name="userName", type="string", length=32, nullable=false)
      */
     private $userName;
 
@@ -31,14 +29,14 @@ class Users implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=64, unique=true, nullable=false)
+     * @ORM\Column(name="email", type="string", length=64, nullable=false)
      */
     private $email = '';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="language", type="string", length=2, nullable=false)
+     * @ORM\Column(name="language", type="string", nullable=false)
      */
     private $language = 'en';
 
@@ -85,25 +83,25 @@ class Users implements UserInterface, \Serializable
     private $lastLoginDate = '0';
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="level", type="boolean", nullable=false)
+     * @ORM\Column(name="level", type="integer", nullable=false)
      */
     private $level = '0';
 
     /**
-     * @var boolean
+     * @var string
      *
-     * @ORM\Column(name="gender", type="boolean", nullable=false)
+     * @ORM\Column(name="gender", type="string", nullable=false)
      */
-    private $gender = '0';
+    private $gender;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="userId", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $userId;
 
@@ -114,7 +112,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param string $userName
      *
-     * @return Users
+     * @return User
      */
     public function setUserName($userName)
     {
@@ -138,7 +136,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param string $password
      *
-     * @return Users
+     * @return User
      */
     public function setPassword($password)
     {
@@ -162,7 +160,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param string $email
      *
-     * @return Users
+     * @return User
      */
     public function setEmail($email)
     {
@@ -186,7 +184,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param string $language
      *
-     * @return Users
+     * @return User
      */
     public function setLanguage($language)
     {
@@ -210,7 +208,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param integer $countryGeonameId
      *
-     * @return Users
+     * @return User
      */
     public function setCountryGeonameId($countryGeonameId)
     {
@@ -234,7 +232,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param integer $cityGeonameId
      *
-     * @return Users
+     * @return User
      */
     public function setCityGeonameId($cityGeonameId)
     {
@@ -258,7 +256,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param \DateTime $birthDate
      *
-     * @return Users
+     * @return User
      */
     public function setBirthDate($birthDate)
     {
@@ -282,7 +280,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param integer $createDate
      *
-     * @return Users
+     * @return User
      */
     public function setCreateDate($createDate)
     {
@@ -306,7 +304,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param integer $updateDate
      *
-     * @return Users
+     * @return User
      */
     public function setUpdateDate($updateDate)
     {
@@ -330,7 +328,7 @@ class Users implements UserInterface, \Serializable
      *
      * @param integer $lastLoginDate
      *
-     * @return Users
+     * @return User
      */
     public function setLastLoginDate($lastLoginDate)
     {
@@ -352,9 +350,9 @@ class Users implements UserInterface, \Serializable
     /**
      * Set level
      *
-     * @param boolean $level
+     * @param integer $level
      *
-     * @return Users
+     * @return User
      */
     public function setLevel($level)
     {
@@ -366,7 +364,7 @@ class Users implements UserInterface, \Serializable
     /**
      * Get level
      *
-     * @return boolean
+     * @return integer
      */
     public function getLevel()
     {
@@ -376,9 +374,9 @@ class Users implements UserInterface, \Serializable
     /**
      * Set gender
      *
-     * @param boolean $gender
+     * @param string $gender
      *
-     * @return Users
+     * @return User
      */
     public function setGender($gender)
     {
@@ -390,7 +388,7 @@ class Users implements UserInterface, \Serializable
     /**
      * Get gender
      *
-     * @return boolean
+     * @return string
      */
     public function getGender()
     {
@@ -405,46 +403,5 @@ class Users implements UserInterface, \Serializable
     public function getUserId()
     {
         return $this->userId;
-    }
-
-
-    public function getSalt()
-    {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
-        return null;
-    }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->userId,
-            $this->userName,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->userId,
-            $this->userName,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-        ) = unserialize($serialized);
     }
 }

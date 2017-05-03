@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PollCategory
  *
- * @ORM\Table(name="PollsCategories", indexes={@ORM\Index(name="pollId", columns={"pollId", "categoryId"})})
+ * @ORM\Table(name="PollsCategories", indexes={@ORM\Index(name="pollId", columns={"pollId"}), @ORM\Index(name="categoryId", columns={"categoryId"})})
  * @ORM\Entity
  */
 class PollCategory
@@ -22,9 +22,9 @@ class PollCategory
     private $id;
 
     /**
-     * @var \AppBundle\Entity\Poll
+     * @var \AppBundle\Entity\Polls
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Polls")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -32,9 +32,9 @@ class PollCategory
     private $pollId;
 
     /**
-     * @var \AppBundle\Entity\Category
+     * @var \AppBundle\Entity\Categories
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categories")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")
      * })
@@ -56,11 +56,11 @@ class PollCategory
     /**
      * Set pollId
      *
-     * @param \AppBundle\Entity\Poll $pollId
+     * @param \AppBundle\Entity\Polls $pollId
      *
      * @return PollCategory
      */
-    public function setPollId(\AppBundle\Entity\Poll $pollId = null)
+    public function setPollId(\AppBundle\Entity\Polls $pollId = null)
     {
         $this->pollId = $pollId;
 
@@ -70,7 +70,7 @@ class PollCategory
     /**
      * Get pollId
      *
-     * @return \AppBundle\Entity\Poll
+     * @return \AppBundle\Entity\Polls
      */
     public function getPollId()
     {
@@ -80,11 +80,11 @@ class PollCategory
     /**
      * Set categoryId
      *
-     * @param \AppBundle\Entity\Category $categoryId
+     * @param \AppBundle\Entity\Categories $categoryId
      *
      * @return PollCategory
      */
-    public function setCategoryId(\AppBundle\Entity\Category $categoryId = null)
+    public function setCategoryId(\AppBundle\Entity\Categories $categoryId = null)
     {
         $this->categoryId = $categoryId;
 
@@ -94,7 +94,7 @@ class PollCategory
     /**
      * Get categoryId
      *
-     * @return \AppBundle\Entity\Category
+     * @return \AppBundle\Entity\Categories
      */
     public function getCategoryId()
     {

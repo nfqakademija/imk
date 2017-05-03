@@ -22,9 +22,9 @@ class City
     /**
      * @var string
      *
-     * @ORM\Column(name="localeCode", type="string", length=2, nullable=false)
+     * @ORM\Column(name="localeCode", type="string", nullable=false)
      */
-    private $localeCode;
+    private $localeCode = 'en';
 
     /**
      * @var string
