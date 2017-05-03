@@ -57,9 +57,9 @@ class Poll
     private $pollId;
 
     /**
-     * @var \AppBundle\Entity\Users
+     * @var \AppBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="authorId", referencedColumnName="userId")
      * })
@@ -205,7 +205,7 @@ class Poll
      *
      * @return Poll
      */
-    public function setAuthorId(\AppBundle\Entity\Users $authorId = null)
+    public function setAuthorId(\AppBundle\Entity\User $authorId = null)
     {
         $this->authorId = $authorId;
 
@@ -215,7 +215,7 @@ class Poll
     /**
      * Get authorId
      *
-     * @return \AppBundle\Entity\Users
+     * @return \AppBundle\Entity\User
      */
     public function getAuthorId()
     {

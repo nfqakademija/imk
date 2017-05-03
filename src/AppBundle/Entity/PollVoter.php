@@ -36,9 +36,9 @@ class PollVoter
     private $id;
 
     /**
-     * @var \AppBundle\Entity\Polls
+     * @var \AppBundle\Entity\Poll
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Polls")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -46,9 +46,9 @@ class PollVoter
     private $pollId;
 
     /**
-     * @var \AppBundle\Entity\Users
+     * @var \AppBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="voterId", referencedColumnName="userId")
      * })
@@ -118,11 +118,11 @@ class PollVoter
     /**
      * Set pollId
      *
-     * @param \AppBundle\Entity\Polls $pollId
+     * @param \AppBundle\Entity\Poll $pollId
      *
      * @return PollVoter
      */
-    public function setPollId(\AppBundle\Entity\Polls $pollId = null)
+    public function setPollId(\AppBundle\Entity\Poll $pollId = null)
     {
         $this->pollId = $pollId;
 
@@ -132,7 +132,7 @@ class PollVoter
     /**
      * Get pollId
      *
-     * @return \AppBundle\Entity\Polls
+     * @return \AppBundle\Entity\Poll
      */
     public function getPollId()
     {
@@ -142,11 +142,11 @@ class PollVoter
     /**
      * Set voterId
      *
-     * @param \AppBundle\Entity\Users $voterId
+     * @param \AppBundle\Entity\User $voterId
      *
      * @return PollVoter
      */
-    public function setVoterId(\AppBundle\Entity\Users $voterId = null)
+    public function setVoterId(\AppBundle\Entity\User $voterId = null)
     {
         $this->voterId = $voterId;
 
@@ -156,7 +156,7 @@ class PollVoter
     /**
      * Get voterId
      *
-     * @return \AppBundle\Entity\Users
+     * @return \AppBundle\Entity\User
      */
     public function getVoterId()
     {

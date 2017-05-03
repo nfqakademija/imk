@@ -22,9 +22,9 @@ class PollCategory
     private $id;
 
     /**
-     * @var \AppBundle\Entity\Polls
+     * @var \AppBundle\Entity\Poll
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Polls")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -32,9 +32,9 @@ class PollCategory
     private $pollId;
 
     /**
-     * @var \AppBundle\Entity\Categories
+     * @var \AppBundle\Entity\Category
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categories")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")
      * })
@@ -56,7 +56,7 @@ class PollCategory
     /**
      * Set pollId
      *
-     * @param \AppBundle\Entity\Polls $pollId
+     * @param \AppBundle\Entity\Poll $pollId
      *
      * @return PollCategory
      */
@@ -70,7 +70,7 @@ class PollCategory
     /**
      * Get pollId
      *
-     * @return \AppBundle\Entity\Polls
+     * @return \AppBundle\Entity\Poll
      */
     public function getPollId()
     {
@@ -80,11 +80,11 @@ class PollCategory
     /**
      * Set categoryId
      *
-     * @param \AppBundle\Entity\Categories $categoryId
+     * @param \AppBundle\Entity\Category $categoryId
      *
      * @return PollCategory
      */
-    public function setCategoryId(\AppBundle\Entity\Categories $categoryId = null)
+    public function setCategoryId(\AppBundle\Entity\Category $categoryId = null)
     {
         $this->categoryId = $categoryId;
 
@@ -94,7 +94,7 @@ class PollCategory
     /**
      * Get categoryId
      *
-     * @return \AppBundle\Entity\Categories
+     * @return \AppBundle\Entity\Category
      */
     public function getCategoryId()
     {

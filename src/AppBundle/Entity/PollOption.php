@@ -43,9 +43,9 @@ class PollOption
     private $optionId;
 
     /**
-     * @var \AppBundle\Entity\Polls
+     * @var \AppBundle\Entity\Poll
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Polls")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -139,11 +139,11 @@ class PollOption
     /**
      * Set pollId
      *
-     * @param \AppBundle\Entity\Polls $pollId
+     * @param \AppBundle\Entity\Poll $pollId
      *
      * @return PollOption
      */
-    public function setPollId(\AppBundle\Entity\Polls $pollId = null)
+    public function setPollId(\AppBundle\Entity\Poll $pollId = null)
     {
         $this->pollId = $pollId;
 
