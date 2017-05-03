@@ -1,7 +1,36 @@
 {% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
 
-{% block avanzu_logo %}<a href="{{ path('homepage') }}" class="logo">Ponder</a>{% endblock %}
+{% block avanzu_logo %}<a href="{{ path('admin_home') }}" class="logo">Ponder</a>{% endblock %}
 {% block title %}Ponder admin{% endblock %}
+{% block avanzu_navbar %}
+    {{ parent() }}
+    <li class="dropdown user user-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="user-image"
+                 alt="User Image" title="" style="">
+            <span class="hidden-xs">Admin</span>
+        </a>
+        <ul class="dropdown-menu">
+            <!-- User image -->
+            <li class="user-header">
+                <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle"
+                     alt="User Image">
+
+                <p>Admin</p>
+            </li>
+            <!-- Menu Footer-->
+            <li class="user-footer">
+                <div class="pull-left">
+                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                </div>
+                <div class="pull-right">
+                    <a href="{{ path('avanzu_admin_logout') }}" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+            </li>
+        </ul>
+    </li>
+{% endblock %}
+
 {% block avanzu_sidebar %}
     {{ parent() }}
     <ul class="sidebar-menu">
