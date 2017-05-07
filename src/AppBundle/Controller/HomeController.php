@@ -2,9 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomeController extends Controller
@@ -16,6 +17,20 @@ class HomeController extends Controller
     public function indexAction()
     {
         return $this->render('AppBundle:Home:index.html.twig', []);
+    }
+
+    /**
+     * @Route("/search", name="search")
+     */
+    public function searchAction(Request $request)
+    {
+        $searchInput = $request->query->get('tag');
+        $result = $this->getDoctrine()->getRepository('AppBundle:Category')->searchByTitle($searchInput);
+
+        return new JsonResponse(array_map(function (Category $category) {
+            return $category->getTitle();
+        }, $result
+        ));
     }
 
     /**
