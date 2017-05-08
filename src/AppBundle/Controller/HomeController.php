@@ -48,7 +48,8 @@ class HomeController extends Controller
             ->add('title', TextType::class)
             ->add('hitsCount', IntegerType::class)
             ->add('save', SubmitType::class, [
-                'label' => 'Create cate'
+                'label' => 'Confirm',
+                'attr' => ['class' => 'btn btn-primary']
             ])
             ->getForm();
 
