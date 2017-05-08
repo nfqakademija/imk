@@ -5,6 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -31,6 +34,37 @@ class HomeController extends Controller
             return $category->getTitle();
         }, $result
         ));
+    }
+
+    /**
+     * @Route("/submit", name="submit")
+     */
+    public function newPostAction(Request $request)
+    {
+        $cat = new Category();
+        $form = $this->createFormBuilder($cat)
+            ->setAction($this->generateUrl('submit'))
+            ->setMethod('POST')
+            ->add('title', TextType::class)
+            ->add('hitsCount', IntegerType::class)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create cate'
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $cat = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($cat);
+            $em->flush();
+
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render(':inc:new_post_form.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
