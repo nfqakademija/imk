@@ -23,7 +23,7 @@ gulp.task('scripts', function() {
             //Third party assets
             dir.npm + 'jquery/dist/jquery.min.js',
             dir.npm + 'bootstrap-sass/assets/javascripts/bootstrap.min.js',
-
+            dir.assets + 'scripts/typeahead.bundle.js',
             // Main JS file
             dir.assets + 'scripts/main.js'
         ])
@@ -46,8 +46,10 @@ gulp.task('fonts', function() {
         .pipe(gulp.dest(dir.dist + 'fonts'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
     gulp.watch(dir.assets + 'style/*.scss', ['sass']);
+    gulp.watch(dir.assets + 'scripts/*.js', ['scripts']);
+    gulp.watch(dir.assets + 'images/*', ['images']);
 });
 
 gulp.task('default', ['sass', 'scripts', 'fonts', 'images', 'watch']);
