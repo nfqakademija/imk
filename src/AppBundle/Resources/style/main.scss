@@ -92,6 +92,7 @@ body {
   box-shadow: 0 0 0;
   border-color: rgba(189, 183, 206, 0.9);
   background-color: #eae5ee;
+  float:inherit;
 }
 .stylish-input-group {
   input::-webkit-input-placeholder {
@@ -248,7 +249,7 @@ a:hover, a:focus {
 }
 
 .pointable{
-  cursor: po;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 767px) {
@@ -303,4 +304,39 @@ small {
 
 button {
   background-color: white;
+}
+
+
+.tt-query {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: white;
+}
+.tt-menu {
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
 }
