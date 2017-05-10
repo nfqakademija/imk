@@ -52,4 +52,4 @@ gulp.task('watch', function () {
     gulp.watch(dir.assets + 'images/*', ['images']);
 });
 
-gulp.task('default', ['sass', 'scripts', 'fonts', 'images', 'watch']);
+gulp.task('default', ['sass', 'scripts', 'fonts', 'images']);
