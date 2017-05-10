@@ -3,11 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Poll;
+use AppBundle\Entity\PollCategory;
+use AppBundle\Entity\PollOption;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -39,33 +39,58 @@ class HomeController extends Controller
     /**
      * @Route("/submit", name="submit")
      */
-    public function newPostAction(Request $request)
+    public function newPostAction()
     {
-        $cat = new Category();
-        $form = $this->createFormBuilder($cat)
-            ->setAction($this->generateUrl('submit'))
-            ->setMethod('POST')
-            ->add('title', TextType::class)
-            ->add('hitsCount', IntegerType::class)
-            ->add('save', SubmitType::class, [
-                'label' => 'Confirm',
-                'attr' => ['class' => 'btn btn-primary']
-            ])
-            ->getForm();
 
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $cat = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($cat);
-            $em->flush();
 
-            return $this->redirectToRoute('homepage');
-        }
         return $this->render(':inc:new_post_form.html.twig', [
-            'form' => $form->createView(),
+
         ]);
+    }
+    /**
+     * @Route("/submit/process", name="submit_process")
+     */
+    public function submitProccessAction(Request $request)
+    {
+        $sequence = 1;
+        $em = $this->getDoctrine()->getManager();
+        $poll = new Poll();
+        $category = new Category();
+        $joinTable = new PollCategory();
+
+        //Get post data
+        $title = $request->request->get('title');
+        $categoryNames = $request->request->get('category');
+        $files = $request->files->get('file');
+
+        if (!empty($title) and !empty($files) and !empty($categoryNames)){
+            //persist catetegory/tag
+            $category->setTitle($categoryNames);
+            $joinTable->setPollId($poll);
+            $joinTable->setCategoryId($category);
+            $em->persist($category);
+            $em->persist($joinTable);
+
+            $poll->setTitle($title);
+
+            //save all received files
+            foreach ($files as $file){
+                $option = new PollOption();
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                //save to db
+                $option->setContent($fileName);
+                $option->setSequence($sequence);
+                $option->setPollId($poll);
+                $em->persist($option);
+                $file->move('images/test',$fileName);
+                $sequence +=1;
+            }
+            $em->persist($poll);
+            $em->flush();
+        }
+
+        return new JsonResponse([]);
     }
 
     /**

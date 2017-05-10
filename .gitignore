@@ -16,7 +16,7 @@
 /web/js
 /web/css
 /web/fonts
-/web/css
+/web/images/test
 /node_modules
 /bin/*
 .env
