@@ -77,13 +77,12 @@ class HomeController extends Controller
             //save all received files
             foreach ($files as $file){
                 $option = new PollOption();
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $fileName = $this->get('app.fileUploader')->upload($file);
                 //save to db
                 $option->setContent($fileName);
                 $option->setSequence($sequence);
                 $option->setPollId($poll);
                 $em->persist($option);
-                $file->move('images/test',$fileName);
                 $sequence +=1;
             }
             $em->persist($poll);
