@@ -4,6 +4,22 @@ parameters:
 #    parameter_name: value
 
 services:
-#    app.example:
-#        class: AppBundle\Service\ExampleService
-#        arguments: ["@doctrine.orm.entity_manager"]
+    app.form_login_authenticator:
+        class: AppBundle\Security\FormLoginAuthenticator
+        arguments: ["@service_container"]
+
+    app.social_login_authenticator:
+        class: AppBundle\Security\SocialLoginAuthenticator
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    app.last_login_subscriber:
+        class: AppBundle\EventListener\LastLoginSubscriber
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.doctrine.hash_password_listener:
+        class: AppBundle\Doctrine\HashPasswordListener
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }

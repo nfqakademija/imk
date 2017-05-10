@@ -1,91 +1,101 @@
 <?php
+
 namespace AppBundle\Security;
 
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-use Symfony\Component\Security\Core\Security;
 
 class FormLoginAuthenticator extends AbstractFormLoginAuthenticator
 {
-    private $router;
-    private $encoder;
+    private $container;
 
-    public function __construct(RouterInterface $router, UserPasswordEncoderInterface $encoder)
+    public function __construct(ContainerInterface $container)
     {
-        $this->router = $router;
-        $this->encoder = $encoder;
+        $this->container = $container;
     }
 
     public function getCredentials(Request $request)
     {
-        if ($request->getPathInfo() != '/login_check') {
-          return;
+        if ($request->getPathInfo() != '/login_check' || !$request->isMethod('POST')) {
+            return;
         }
 
-        $email = $request->request->get('_email');
-        $request->getSession()->set(Security::LAST_USERNAME, $email);
+        $username = $request->request->get('_username');
+        $request->getSession()->set(Security::LAST_USERNAME, $username);
         $password = $request->request->get('_password');
 
-        return [
-            'email' => $email,
-            'password' => $password,
-        ];
+        return array(
+            'username' => $username,
+            'password' => $password
+        );
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $email = $credentials['email'];
+        $username = $credentials['username'];
 
-        return $userProvider->loadUserByUsername($email);
+        $userRepo = $this->container
+            ->get('doctrine')
+            ->getManager()
+            ->getRepository('AppBundle:User');
+
+        return $userRepo->findByUsernameOrEmail($username);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
         $plainPassword = $credentials['password'];
-        if ($this->encoder->isPasswordValid($user, $plainPassword)) {
-            return true;
+        $encoder = $this->container->get('security.password_encoder');
+        if (!$encoder->isPasswordValid($user, $plainPassword)) {
+//            throw new BadCredentialsException();
+            return false;
         }
 
-        throw new BadCredentialsException();
-    }
-
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
-    {
-        $url = $this->router->generate('welcome');
-
-        return new RedirectResponse($url);
+        return true;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-       $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+        // AJAX! Maybe return some JSON
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                // you could translate the message
+                array('message' => $exception->getMessageKey()),
+                403
+            );
+        }
 
-       $url = $this->router->generate('login');
+        // for non-AJAX requests, return the normal redirect
+        return parent::onAuthenticationFailure($request, $exception);
+    }
 
-       return new RedirectResponse($url);
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    {
+        // AJAX! Return some JSON
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+            // you could translate the message
+                array('message' => $exception->getMessageKey())
+            );
+        }
+
+        // for non-AJAX requests, return the normal redirect
+        return parent::onAuthenticationSuccess($request, $token, $providerKey);
     }
 
     protected function getLoginUrl()
     {
-        return $this->router->generate('login');
-    }
-
-    protected function getDefaultSuccessRedirectUrl()
-    {
-        return $this->router->generate('welcome');
-    }
-
-    public function supportsRememberMe()
-    {
-        return false;
+        return $this->container->get('router')
+            ->generate('security_login');
     }
 }

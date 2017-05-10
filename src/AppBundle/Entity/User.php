@@ -2,20 +2,27 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\Role\Role;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
  * @ORM\Table(name="Users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity(fields={"userName"}, message="That username is taken!")
+ * @UniqueEntity(fields={"email"}, message="It looks like your already have an account!")
  */
-class User
+class User implements AdvancedUserInterface, \Serializable
 {
     /**
      * @var string
      *
      * @ORM\Column(name="userName", type="string", length=32, nullable=false)
+     * @Assert\NotBlank
      */
     private $userName;
 
@@ -27,9 +34,19 @@ class User
     private $password;
 
     /**
+     * A non-persisted field that's used to create the encoded password.
+     * @Assert\NotBlank(groups={"Registration"})
+     *
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=64, nullable=false)
+     * @ORM\Column(name="email", type="string", length=64, nullable=false, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Email
      */
     private $email = '';
 
@@ -87,7 +104,7 @@ class User
      *
      * @ORM\Column(name="level", type="integer", nullable=false)
      */
-    private $level = '0';
+    private $level = '1';
 
     /**
      * @var string
@@ -403,5 +420,98 @@ class User
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        if ($this->level >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getRoles()
+    {
+        if ($this->level >= 1000) {
+            return ['ROLE_ADMIN'];
+        } else {
+            return ['ROLE_USER'];
+        }
+    }
+
+    public function setRoles($roles)
+    {
+        if (in_array('ROLE_ADMIN', $roles)) {
+            if ($this->level < 1000) {
+                $this->level += 1000;
+            }
+        } else {
+            $this->level = 1;
+        }
+    }
+
+    public function getSalt()
+    {
+        // See "Do you need to use a Salt?" at http://symfony.com/doc/current/cookbook/security/entity_provider.html
+        // we're using bcrypt in security.yml to encode the password, so
+        // the salt value is built-in and you don't have to generate one
+
+        return;
+    }
+
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->userId,
+            $this->userName,
+            $this->password,
+            $this->email,
+            $this->level
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->userId,
+            $this->userName,
+            $this->password,
+            $this->email,
+            $this->level
+            ) = unserialize($serialized);
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+        // forces the object to look "dirty" to Doctrine. Avoids
+        // Doctrine *not* saving this entity, if only plainPassword changes
+        $this->password = null;
     }
 }
