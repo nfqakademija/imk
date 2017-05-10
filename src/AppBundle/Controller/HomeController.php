@@ -19,7 +19,11 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:Home:index.html.twig', []);
+        $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->findAll();
+
+        return $this->render('AppBundle:Home:index.html.twig', [
+            'polls' => $polls
+        ]);
     }
 
     /**
