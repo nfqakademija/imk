@@ -1,48 +1,11 @@
-{% extends 'base.html.twig' %}
-{% block body %}
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
-    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 
-
-    <div class="form-group">
-    <form id="myDropzone" class="dropzone">
-        <div class="dropzone-previews"></div>
-        <label for="title">Title: </label>
-        <input type="text" name="title" id="title"><br>
-        <label for="category">Category name: </label>
-        <input type="text" name="category" id="category"><br>
-    </form>
-        <button type="submit" id="submit-all" class="btn btn-success">Submit data and files!</button>
-    {#<form action="{{ path('submit_process') }}" class="dropzone" id="myDropzone"></form>#}
-
-        {#<button id="">Submit all files</button>#}
-    </div>
-
-
-
-    <script>
-        Dropzone.options.myDropzone = {
-
-            // Prevents Dropzone from uploading dropped files immediately
-            autoProcessQueue: false,
-            uploadMultiple: true,
-            url: '{{ path('submit_process') }}',
-
-            init: function() {
-                var submitButton = document.querySelector("#submit-all")
-                myDropzone = this; // closure
-
-                submitButton.addEventListener("click", function() {
-                    myDropzone.processQueue(); // Tell Dropzone to process all queued files.
-                });
-
-                // You might want to show the submit button only when
-                // files are dropped here:
-                this.on("addedfile", function() {
-                    // Show submit button here and/or inform user to click it.
-                });
-
-            }
-        };
-    </script>
-{% endblock body %}
+<div class="form-group">
+<form id="myDropzone" class="dropzone">
+    <div class="dropzone-previews"></div>
+    <label for="title">Title: </label><br>
+    <input type="text" name="title" id="title"><br>
+    <label for="category">Category name: </label>
+    <input type="text" name="category" id="category"><br>
+</form>
+    <button type="submit" id="submit-all" class="btn btn-success">Submit data and files!</button>
+</div>

@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 {% endblock %}
 
 {% block body %}
@@ -74,3 +75,34 @@
     </a>
 
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <script>
+        Dropzone.options.myDropzone = {
+
+            // Prevents Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+            uploadMultiple: true,
+            url: '{{ path('submit_process') }}',
+            maxFiles: 4,
+            parallelUploads:4,
+
+            init: function() {
+                var submitButton = document.querySelector("#submit-all")
+                myDropzone = this; // closure
+
+                submitButton.addEventListener("click", function() {
+                    myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+                });
+
+                // You might want to show the submit button only when
+                // files are dropped here:
+                this.on("addedfile", function() {
+                    // Show submit button here and/or inform user to click it.
+                });
+
+            }
+        };
+    </script>
+{% endblock javascripts %}
