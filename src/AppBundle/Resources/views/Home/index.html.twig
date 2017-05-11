@@ -248,9 +248,8 @@
             </div>
         </div>
     </div>
-
+        <div class="row">
         {% for poll in polls %}
-            <div class="row">
                 <div class="col-md-4 col-md-offset-0 col-sm-offset-1 col-sm-10 post-block">
                     <div class="panel panel-default center-block">
                         <div class="panel-heading">
@@ -274,10 +273,10 @@
                     </div>
                 </div>
 
-    {% if loop.index is divisible by(3) and not loop.last %}
-        </div>
-        <div class="row">
-    {% endif %}
+        {% if loop.index is divisible by(3) and not loop.last %}
+            </div>
+            <div class="row">
+        {% endif %}
         {% endfor %}
 
 </div>
@@ -301,6 +300,7 @@
             maxFiles: 4,
             maxFilesize: 4,
             parallelUploads:4,
+            acceptedFiles: "image/*",
 
             init: function() {
                 var submitButton = document.querySelector("#submit-all")
