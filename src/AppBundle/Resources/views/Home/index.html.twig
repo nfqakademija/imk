@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 {% endblock %}
 
 {% block body %}
@@ -247,6 +248,75 @@
             </div>
         </div>
     </div>
+        <div class="row">
+        {% for poll in polls %}
+                <div class="col-md-4 col-md-offset-0 col-sm-offset-1 col-sm-10 post-block">
+                    <div class="panel panel-default center-block">
+                        <div class="panel-heading">
+                            <ul class="list-inline">
+                                <li class="user-name"><a>User123:</a></li>
+                                <li>{{ poll.title }}</li>
+                                <li class="pull-right post-time">15 min</li>
+                            </ul>
+                        </div>
+                        <div class="crop panel-images row">
+                        {% for image in poll.images %}
+                            <label for="radio-{{ image.optionId }}">
+                                <input id="radio-{{ image.optionId }}" type="radio" name="post-55" value="left"/>
+                                <img src="images/{{ image.content }}">
+                            </label>
+                        {% endfor %}
+                        </div>
+                        <div class="panel-body post-tags">
+                            <a class="pointable">#kittens</a>
+                        </div>
+                    </div>
+                </div>
+
+        {% if loop.index is divisible by(3) and not loop.last %}
+            </div>
+            <div class="row">
+        {% endif %}
+        {% endfor %}
+
 </div>
 
+    <!-- Add new post button -->
+    <a href="" class="float" data-toggle="modal" data-target="#new-post-modal">
+        <i class="fa fa-plus fa-2x my-float" ></i>
+    </a>
+
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <script>
+        Dropzone.options.myDropzone = {
+
+            // Prevents Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+            uploadMultiple: true,
+            url: '{{ path('submit_process') }}',
+            maxFiles: 4,
+            maxFilesize: 4,
+            parallelUploads:4,
+            acceptedFiles: "image/*",
+
+            init: function() {
+                var submitButton = document.querySelector("#submit-all")
+                myDropzone = this; // closure
+
+                submitButton.addEventListener("click", function() {
+                    myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+                });
+
+                // You might want to show the submit button only when
+                // files are dropped here:
+                this.on("addedfile", function() {
+                    // Show submit button here and/or inform user to click it.
+                });
+
+            }
+        };
+    </script>
+{% endblock javascripts %}

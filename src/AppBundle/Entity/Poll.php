@@ -66,7 +66,12 @@ class Poll
      */
     private $authorId;
 
-
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection $images
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PollOption", mappedBy="pollId")
+     *
+     */
+    private $images;
 
     /**
      * Set createDate
@@ -75,6 +80,15 @@ class Poll
      *
      * @return Poll
      */
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     public function setCreateDate($createDate)
     {
         $this->createDate = $createDate;
@@ -201,7 +215,7 @@ class Poll
     /**
      * Set authorId
      *
-     * @param \AppBundle\Entity\Users $authorId
+     * @param \AppBundle\Entity\User $authorId
      *
      * @return Poll
      */
@@ -220,5 +234,22 @@ class Poll
     public function getAuthorId()
     {
         return $this->authorId;
+    }
+
+    /**
+     * Add images
+     *
+     * @param PollOption $images
+     * @return Poll
+     */
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

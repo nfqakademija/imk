@@ -14,8 +14,9 @@
 /vendor/
 /web/bundles
 /web/js
-/web/fonts
 /web/css
+/web/fonts
+/web/images/test
 /node_modules
 /bin/*
 .env

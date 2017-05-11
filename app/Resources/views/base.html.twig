@@ -5,6 +5,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
     {% endblock %}
     {% block canonical_meta %}
@@ -23,6 +24,7 @@
 {% block container %}
     {% block body %}
     {% endblock %}
+    {% include ":inc:new_post_modal.html.twig" %}
 {% endblock %}
 
 {% block footer %}

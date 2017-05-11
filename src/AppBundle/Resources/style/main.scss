@@ -364,6 +364,24 @@ button {
   margin: 0;
 }
 
+a.float{
+  position:fixed;
+  width:60px;
+  height:60px;
+  bottom:56px;
+  right:56px;
+  background-color:#2196f3;
+  color:#FFF;
+  border-radius:50px;
+  text-align:center;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999999;
+}
+
+.my-float{
+  margin-top: 32%;
+}
+
 .navbar-default .navbar-header .navbar-brand {
   font-size: 22px;
 }
