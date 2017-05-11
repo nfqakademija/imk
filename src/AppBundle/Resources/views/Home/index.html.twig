@@ -62,33 +62,39 @@
                 </div>
             </div>
         </div>
-
+    </div>
 
         {% for poll in polls %}
-            <div class="col-md-6 col-sm-10 post-block">
-                <div class="panel panel-default center-block">
-                    <div class="panel-heading">
-                        <ul class="list-inline">
-                            <li class="user-name"><a>User123:</a></li>
-                            <li>{{ poll.title }}</li>
-                            <li class="pull-right post-time">15 min</li>
-                        </ul>
-                    </div>
-                    <div class="crop panel-images row">
-                    {% for image in poll.images %}
-                        <label for="radio-{{ image.optionId }}">
-                            <input id="radio-{{ image.optionId }}" type="radio" name="post-55" value="left"/>
-                            <img src="images/{{ image.content }}">
-                        </label>
-                    {% endfor %}
-                    </div>
-                    <div class="panel-body post-tags">
-                        <a class="pointable">#kittens</a>
+            <div class="row">
+                <div class="col-md-6 col-sm-10 post-block">
+                    <div class="panel panel-default center-block">
+                        <div class="panel-heading">
+                            <ul class="list-inline">
+                                <li class="user-name"><a>User123:</a></li>
+                                <li>{{ poll.title }}</li>
+                                <li class="pull-right post-time">15 min</li>
+                            </ul>
+                        </div>
+                        <div class="crop panel-images row">
+                        {% for image in poll.images %}
+                            <label for="radio-{{ image.optionId }}">
+                                <input id="radio-{{ image.optionId }}" type="radio" name="post-55" value="left"/>
+                                <img src="images/{{ image.content }}">
+                            </label>
+                        {% endfor %}
+                        </div>
+                        <div class="panel-body post-tags">
+                            <a class="pointable">#kittens</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+    {% if loop.index is divisible by(2) and not loop.last %}
+        </div>
+        <div class="row">
+    {% endif %}
         {% endfor %}
-    </div>
+
 </div>
 
     <!-- Add new post button -->
