@@ -16,7 +16,7 @@ class Category
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=100, nullable=false)
+     * @ORM\Column(name="title", type="string", length=100, nullable=false, unique=true)
      */
     private $title = '';
 

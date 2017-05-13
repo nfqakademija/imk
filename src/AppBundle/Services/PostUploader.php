@@ -46,10 +46,16 @@ class PostUploader
             $this->poll->setUpdateDate();
 
             foreach ($this->categoryNames as $name) {
-                $category = new Category();
-                $category->setTitle($name);
-                $this->poll->addCategory($category);
-                $this->em->persist($category);
+                $exists = $this->em->getRepository('AppBundle:Category')->findOneBy(['title' => $name]);
+                if (!$exists) {
+                    $category = new Category();
+                    $category->setTitle($name);
+                    $this->poll->addCategory($category);
+                    $this->em->persist($category);
+                } else {
+                    $this->poll->addCategory($exists);
+                }
+
             }
 
             foreach ($this->files as $file) {
