@@ -15,16 +15,16 @@ class Poll
     /**
      * @var integer
      *
-     * @ORM\Column(name="createDate", type="integer", nullable=false)
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
      */
-    private $createDate = '0';
+    private $createDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="updateDate", type="integer", nullable=false)
+     * @ORM\Column(name="updateDate", type="datetime", nullable=false)
      */
-    private $updateDate = '0';
+    private $updateDate;
 
     /**
      * @var string
@@ -109,13 +109,12 @@ class Poll
     /**
      * Set updateDate
      *
-     * @param integer $updateDate
      *
      * @return Poll
      */
-    public function setUpdateDate($updateDate)
+    public function setUpdateDate()
     {
-        $this->updateDate = $updateDate;
+        $this->updateDate = new \DateTime("now");
 
         return $this;
     }

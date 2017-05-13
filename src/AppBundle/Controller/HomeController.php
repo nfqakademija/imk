@@ -77,6 +77,8 @@ class HomeController extends Controller
             $em->persist($joinTable);
 
             $poll->setTitle($title);
+            $poll->setCreateDate(new \DateTime("now"));
+            $poll->setUpdateDate();
 
             //save all received files
             foreach ($files as $file){
@@ -85,6 +87,7 @@ class HomeController extends Controller
                 //save to db
                 $option->setContent($fileName);
                 $option->setSequence($sequence);
+                $option->setVotesCount(0);
                 $option->setPollId($poll);
                 $em->persist($option);
                 $sequence +=1;
