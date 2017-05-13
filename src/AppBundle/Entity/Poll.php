@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -82,11 +83,27 @@ class Poll
      */
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Category", inversedBy="polls")
+     * @ORM\JoinTable(name="PollCategories",
+     *     joinColumns={@ORM\JoinColumn(name="pollId", referencedColumnName="pollId")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")}
+     * )
+     */
+    private $categories;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+    }
+
+    public function addCategory(Category $category)
+    {
+        $category->addPoll($this);
+        $this->categories[] = $category;
     }
 
     public function setCreateDate($createDate)
@@ -235,12 +252,6 @@ class Poll
         return $this->authorId;
     }
 
-    /**
-     * Add images
-     *
-     * @param PollOption $images
-     * @return Poll
-     */
 
     /**
      * Get images
@@ -250,5 +261,15 @@ class Poll
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

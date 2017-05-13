@@ -5,7 +5,6 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Poll;
-use AppBundle\Entity\PollCategory;
 use AppBundle\Entity\PollOption;
 
 class PostUploader
@@ -16,8 +15,6 @@ class PostUploader
     private $em;
     private $fileUploader;
     private $poll;
-    private $category;
-    private $joinTable;
     private $sequence;
 
     /**
@@ -28,10 +25,7 @@ class PostUploader
         $this->em = $em;
         $this->fileUploader = $fileUploader;
         $this->poll = new Poll();
-        $this->category = new Category();
-        $this->joinTable = new PollCategory();
         $this->sequence = 1;
-        echo "test";
 
     }
 
@@ -45,14 +39,18 @@ class PostUploader
     {
 
         if (!empty($this->title) and !empty($this->files) and !empty($this->categoryNames)) {
-            $this->category->setTitle($this->categoryNames);
-            $this->joinTable->setPollId($this->poll);
-            $this->joinTable->setCategoryId($this->category);
-            $this->em->persist($this->category);
-            $this->em->persist($this->joinTable);
+
+
             $this->poll->setTitle($this->title);
             $this->poll->setCreateDate(new \DateTime("now"));
             $this->poll->setUpdateDate();
+
+            foreach ($this->categoryNames as $name) {
+                $category = new Category();
+                $category->setTitle($name);
+                $this->poll->addCategory($category);
+                $this->em->persist($category);
+            }
 
             foreach ($this->files as $file) {
                 $option = new PollOption();
@@ -101,6 +99,7 @@ class PostUploader
      */
     public function setCategoryNames($categoryNames)
     {
+        $categoryNames = explode(' ', $categoryNames);
         $this->categoryNames = $categoryNames;
     }
 
