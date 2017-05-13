@@ -10,6 +10,18 @@
 {% block body %}
 <div class="container">
     <div class="row">
+    {% if polls is empty %}
+        <div class="col-md-12 col-md-offset-0 col-sm-offset-1 col-sm-12 post-block">
+            <div class="panel panel-default center-block">
+                <div class="panel-body" style="height: 50%">
+                    <h1 style="text-align: center">Looks like there aren't any posts yet! </h1>
+                    <h2 style="text-align: center">Feel free to make a new one</h2>
+                    <br>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#new-post-modal">Contribute!</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     {% for poll in polls %}
             <div class="col-md-4 col-md-offset-0 col-sm-offset-1 col-sm-10 post-block">
                 <div class="panel panel-default center-block">
@@ -44,10 +56,12 @@
 
 </div>
 
+    {% if polls is not empty %}
     <!-- Add new post button -->
     <a href="" class="float" data-toggle="modal" data-target="#new-post-modal">
         <i class="fa fa-plus fa-2x my-float" ></i>
     </a>
+    {% endif %}
 
 {% endblock %}
 {% block javascripts %}
