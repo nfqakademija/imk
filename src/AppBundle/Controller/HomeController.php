@@ -59,10 +59,7 @@ class HomeController extends Controller
         $files = $request->files->get('file');
 
         $uploader = $this->get('app.postuploader');
-        $uploader->setTitle($title);
-        $uploader->setCategoryNames($categoryNames);
-        $uploader->setFiles($files);
-        $uploader->insert();
+        $uploader->insert($title, $files, $categoryNames);
 
         return new JsonResponse([]);
     }

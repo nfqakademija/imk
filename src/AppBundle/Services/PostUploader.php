@@ -9,9 +9,6 @@ use AppBundle\Entity\PollOption;
 
 class PostUploader
 {
-    private $title;
-    private $files;
-    private $categoryNames;
     private $em;
     private $fileUploader;
     private $poll;
@@ -33,19 +30,23 @@ class PostUploader
     /**
      *Persists new post and associated data.
      *
+     * @param string $title New post title
+     * @param array $files Uploaded files/pictures
+     * @param mixed $categoryNames tag/category names
      * @return void
      */
-    public function insert()
+    public function insert($title, $files, $categoryNames)
     {
 
-        if (!empty($this->title) and !empty($this->files) and !empty($this->categoryNames)) {
+        if (!empty($title) and !empty($files) and !empty($categoryNames)) {
 
 
-            $this->poll->setTitle($this->title);
+            $this->poll->setTitle($title);
             $this->poll->setCreateDate(new \DateTime("now"));
             $this->poll->setUpdateDate();
 
-            foreach ($this->categoryNames as $name) {
+            $categoryNames = explode(' ', $categoryNames);
+            foreach ($categoryNames as $name) {
                 $exists = $this->em->getRepository('AppBundle:Category')->findOneBy(['title' => $name]);
                 if (!$exists) {
                     $category = new Category();
@@ -58,7 +59,7 @@ class PostUploader
 
             }
 
-            foreach ($this->files as $file) {
+            foreach ($files as $file) {
                 $option = new PollOption();
                 $fileName = $this->fileUploader->upload($file);
                 $option->setContent($fileName);
@@ -73,56 +74,6 @@ class PostUploader
             $this->em->flush();
         }
 
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     *
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategoryNames()
-    {
-        return $this->categoryNames;
-    }
-
-    /**
-     * @param mixed $categoryNames
-     */
-    public function setCategoryNames($categoryNames)
-    {
-        $categoryNames = explode(' ', $categoryNames);
-        $this->categoryNames = $categoryNames;
-    }
-
-    /**
-     * @return array
-     */
-    public function getFiles()
-    {
-        return $this->files;
-    }
-
-    /**
-     * @param array $files
-     */
-    public function setFiles($files)
-    {
-        $this->files = $files;
     }
 
 }
