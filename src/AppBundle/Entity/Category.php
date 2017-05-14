@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,7 +16,7 @@ class Category
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=100, nullable=false)
+     * @ORM\Column(name="title", type="string", length=100, nullable=false, unique=true)
      */
     private $title = '';
 
@@ -36,6 +37,23 @@ class Category
     private $categoryId;
 
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Poll", mappedBy="categories")
+     */
+    private $polls;
+
+    /**
+     * Category constructor.
+     */
+    public function __construct()
+    {
+        $this->polls = new ArrayCollection();
+    }
+
+    public function addPoll(Poll $poll)
+    {
+        $this->polls[] = $poll;
+    }
 
     /**
      * Set title

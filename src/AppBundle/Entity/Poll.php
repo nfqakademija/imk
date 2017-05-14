@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,16 +16,16 @@ class Poll
     /**
      * @var integer
      *
-     * @ORM\Column(name="createDate", type="integer", nullable=false)
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
      */
-    private $createDate = '0';
+    private $createDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="updateDate", type="integer", nullable=false)
+     * @ORM\Column(name="updateDate", type="datetime", nullable=false)
      */
-    private $updateDate = '0';
+    private $updateDate;
 
     /**
      * @var string
@@ -82,11 +83,27 @@ class Poll
      */
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Category", inversedBy="polls")
+     * @ORM\JoinTable(name="PollCategories",
+     *     joinColumns={@ORM\JoinColumn(name="pollId", referencedColumnName="pollId")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")}
+     * )
+     */
+    private $categories;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+    }
+
+    public function addCategory(Category $category)
+    {
+        $category->addPoll($this);
+        $this->categories[] = $category;
     }
 
     public function setCreateDate($createDate)
@@ -109,13 +126,12 @@ class Poll
     /**
      * Set updateDate
      *
-     * @param integer $updateDate
      *
      * @return Poll
      */
-    public function setUpdateDate($updateDate)
+    public function setUpdateDate()
     {
-        $this->updateDate = $updateDate;
+        $this->updateDate = new \DateTime("now");
 
         return $this;
     }
@@ -236,12 +252,6 @@ class Poll
         return $this->authorId;
     }
 
-    /**
-     * Add images
-     *
-     * @param PollOption $images
-     * @return Poll
-     */
 
     /**
      * Get images
@@ -251,5 +261,15 @@ class Poll
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

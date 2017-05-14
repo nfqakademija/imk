@@ -10,3 +10,12 @@ services:
   app.fileUploader:
     class: AppBundle\Services\FileUploader
     arguments: ['%image_directory%']
+
+  app.PostUploader:
+    class: AppBundle\Services\PostUploader
+    arguments: [ '@doctrine.orm.default_entity_manager', '@app.fileuploader' ]
+
+  app.twig.extension.date:
+    class: Twig_Extensions_Extension_Date
+    tags:
+      - {name: 'twig.extension'}
