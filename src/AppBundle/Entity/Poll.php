@@ -58,12 +58,14 @@ class Poll
     private $pollId;
 
     /**
-     * @var integer
+     * @var \AppBundle\Entity\User
      *
-     * @ORM\Column(name="authorId", type="integer")
-     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="authorId", referencedColumnName="userId", nullable=true)
+     * })
      */
-    private $authorId = 1;
+    private $authorId;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $images
@@ -229,9 +231,11 @@ class Poll
     /**
      * Set authorId
      *
+     * @param \AppBundle\Entity\User $authorId
+     *
      * @return Poll
      */
-    public function setAuthorId($authorId)
+    public function setAuthorId(\AppBundle\Entity\User $authorId = null)
     {
         $this->authorId = $authorId;
 
@@ -241,7 +245,7 @@ class Poll
     /**
      * Get authorId
      *
-     * @return integer
+     * @return \AppBundle\Entity\User
      */
     public function getAuthorId()
     {
