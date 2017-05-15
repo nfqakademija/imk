@@ -39,10 +39,10 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator
         $request->getSession()->set(Security::LAST_USERNAME, $username);
         $password = $request->request->get('_password');
 
-        return array(
+        return [
             'username' => $username,
             'password' => $password
-        );
+        ];
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)

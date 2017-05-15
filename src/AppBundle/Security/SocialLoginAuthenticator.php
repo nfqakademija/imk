@@ -24,7 +24,7 @@ class SocialLoginAuthenticator extends AbstractGuardAuthenticator
     {
         // get the value of a $_POST parameter
         $form = $request->request->get('form');
-        return is_array($form) ? (array_key_exists('email', $form) ? $form['email'] : null) : null;
+        return $form['email'] ?? null;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
