@@ -6,7 +6,7 @@ parameters:
 services:
     app.form_login_authenticator:
         class: AppBundle\Security\FormLoginAuthenticator
-        arguments: ["@service_container"]
+        autowire: true
 
     app.social_login_authenticator:
         class: AppBundle\Security\SocialLoginAuthenticator

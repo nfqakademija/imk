@@ -1,36 +1,727 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %}{{ "Ponder" }}{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>{% block title %}Ponder{% endblock %}</title>
+{% block stylesheets %}
+        {#<link rel="stylesheet" href="{{ asset('css/style.css') }}"/>#}
         <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
-    {% endblock %}
-    {% block canonical_meta %}
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    {% endblock %}
-</head>
+        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker3.min.css">
+{% endblock %}
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="904757022716-c30u5l4f8tb1nv9d7c1lmkgkoojk1f7b.apps.googleusercontent.com">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+        <style type="text/css">
+            body {
+                margin-top: 95px;
+                font-family: 'Comfortaa', cursive;
+                background-color: #eae5ee;
+                color: #5e548e;
+            }
 
-<body>
+            .navbar-default {
+                background-color: white;
+                border-color: rgba(189, 183, 206, 0.9);
+                box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+            }
 
+            .navbar-brand {
+                padding: 8px 15px;
+            }
+
+            .navbar-header {
+                padding: 10px;
+            }
+
+            .navbar-default .navbar-header .navbar-brand {
+                font-weight: 200;
+                color: #5e548e;
+                -o-transition: .5s;
+                -moz-transition: .5s;
+                -webkit-transition: .5s;
+                transition: .5s;
+                font-size: 26px;
+            }
+
+            .navbar-default .navbar-header .navbar-brand:hover,
+            .navbar-default .navbar-header .navbar-brand:focus {
+                color: #5e548e;
+                -o-transition: .5s;
+                -moz-transition: .5s;
+                -webkit-transition: .5s;
+                transition: .5s;
+            }
+
+            .navbar-default .nav > li > a {
+                font-size: 15px;
+            }
+
+            .navbar-default .nav > li > a,
+            .navbar-default .nav > li > a:focus {
+                color: #5e548e;
+            }
+
+            .navbar-default .nav > li > a:hover,
+            .navbar-default .nav > li > a:focus:hover {
+                color: #9f86c0;
+                -o-transition: .5s;
+                -moz-transition: .5s;
+                -webkit-transition: .5s;
+                transition: .5s;
+            }
+
+            .navbar-default .nav > li.active > a,
+            .navbar-default .nav > li.active > a:focus {
+                color: #9f86c0 !important;
+                background-color: transparent;
+                -o-transition: .5s;
+                -moz-transition: .5s;
+                -webkit-transition: .5s;
+                transition: .5s;
+            }
+
+            .navbar-default .nav > li.active > a:hover,
+            .navbar-default .nav > li.active > a:focus:hover {
+                background-color: transparent;
+            }
+
+            #qm {
+                width: 32px;
+                height: 32px;
+            }
+
+            .stylish-input-group .input-group-addon {
+                background: #eae5ee !important;
+            }
+
+            .stylish-input-group .form-control {
+                border-right: 0;
+                box-shadow: 0 0 0;
+                border-color: rgba(189, 183, 206, 0.9);
+                background-color: #eae5ee;
+                float:inherit;
+            }
+            .stylish-input-group {
+            input::-webkit-input-placeholder {
+                color: white !important;
+            }
+
+            input:-moz-placeholder {
+                color: white !important;
+            }
+
+            input::-moz-placeholder {
+                color: white !important;
+            }
+
+            input:-ms-input-placeholder {
+                color: white !important;
+            }
+            }
+            .stylish-input-group button {
+                border: 0;
+                background: transparent;
+            }
+
+            #custom-search-input {
+                border: solid 1px #5e548e;
+                border-radius: 6px;
+                background-color: #fff;
+            }
+
+            .center-nav {
+                padding: 20px 15px 20px 15px;
+            }
+
+            #custom-search-btn {
+                background-color: #eae5ee;
+                border-bottom: solid 1px rgba(189, 183, 206, 0.9);
+                border-right: solid 1px rgba(189, 183, 206, 0.9);
+                border-top: solid 1px rgba(189, 183, 206, 0.9);
+                color: white;
+            }
+
+            input, select, textarea {
+                color: #5e548e;
+            }
+
+            textarea:focus, input:focus {
+                color: #5e548e;
+            }
+
+            .form-control {
+                color: #5e548e;
+            }
+
+            #custom-search-btn:focus,
+            #custom-search-btn:active {
+                color: #5e548e;
+            }
+
+            #custom-search-btn:hover {
+                -o-transition: .5s;
+                -moz-transition: .5s;
+                -webkit-transition: .5s;
+                transition: .5s;
+                color: #9f86c0;
+            }
+
+            .menu-icon {
+                height: 25px;
+                width: 25px;
+            }
+
+            .panel-images {
+                margin: 0;
+
+            label {
+                width: 50%;
+                height: auto;
+                float: left;
+                display: block;
+                overflow: hidden;
+            }
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+
+            label > input {
+                visibility: hidden;
+                position: absolute;
+            }
+
+            label > input + img {
+                cursor: pointer;
+                border: 2px solid transparent;
+            }
+
+            label > input:checked + img {
+                border: 2px solid #9f86c0;
+            }
+            }
+
+            .panel-default > .panel-heading, .panel-default {
+                color: #5e548e;
+                background-color: white;
+                border-color: rgba(189, 183, 206, 0.9);
+            }
+
+            .panel-heading {
+                border-bottom: none;
+                padding: 10px 16px 0 15px;
+            }
+
+            .user-name {
+                font-weight: bold;
+            }
+
+            .post-time {
+                color: #9f86c0;
+            }
+
+            .panel-default, .panel {
+                max-width: 554px;
+                box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+                margin-top: 30px;
+            }
+
+            a, a:visited {
+                color: #9f86c0;
+            }
+
+            a:hover, a:focus {
+                color: #5e548e;
+                text-decoration: none;
+                -webkit-transition: all 0.35s;
+                -moz-transition: all 0.35s;
+                transition: all 0.35s;
+            }
+
+            .user-name > a,
+            .user-name > a:visited {
+                color: #5e548e;
+                cursor: pointer;
+            }
+
+            .user-name > a:hover,
+            .user-name > a:focus {
+                color: #9f86c0;
+                text-decoration: none;
+                -webkit-transition: all 0.35s;
+                -moz-transition: all 0.35s;
+                transition: all 0.35s;
+                cursor: pointer;
+            }
+
+            .pointable{
+                cursor: pointer;
+            }
+
+            @media screen and (max-width: 767px) {
+                body {
+                    margin-top: 170px;
+                }
+
+                .navbar-form {
+                    margin: 0;
+                }
+
+                .float-left-list {
+                    text-align: center;
+
+            > li {
+                  display: inline-block;
+              }
+            }
+
+            .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+                border-color: transparent;
+            }
+            }
+
+            input::-webkit-input-placeholder {
+                color: #9f86c0 !important;
+            }
+
+            input:-moz-placeholder {
+                color: #9f86c0 !important;
+            }
+
+            input::-moz-placeholder {
+                color: #9f86c0 !important;
+            }
+
+            input:-ms-input-placeholder {
+                color: #9f86c0 !important;
+            }
+
+            hr {
+                border-color: #9f86c0;
+            }
+
+            .registration {
+                margin-top: 30px;
+            }
+
+            small {
+                color: #9f86c0;
+            }
+
+            button {
+                background-color: white;
+            }
+
+
+            .tt-query {
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            }
+
+            .tt-hint {
+                color: white;
+            }
+            .tt-menu {
+                width: 100%;
+                margin-top: 12px;
+                padding: 8px 0;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                box-shadow: 0 5px 10px rgba(0,0,0,.2);
+            }
+
+            .tt-suggestion {
+                padding: 3px 20px;
+                font-size: 18px;
+                line-height: 24px;
+            }
+
+            .tt-suggestion.tt-cursor {
+                color: #fff;
+                background-color: #0097cf;
+
+            }
+
+            .tt-suggestion p {
+                margin: 0;
+            }
+/* login modal */
+            .login-or {
+                position: relative;
+                font-size: 18px;
+                color: #aaa;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .span-or {
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: -2px;
+                margin-left: -25px;
+                background-color: #fff;
+                width: 50px;
+                text-align: center;
+            }
+            .hr-or {
+                background-color: #cdcdcd;
+                height: 1px;
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+            }
+        </style>
+    </head>
+    <body>
 {% block header %}
-    {% include "::inc/header.html.twig" %}
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="row">
+                <div id="nav-head" class="navbar-header col-md-4 col-sm-4 col-xs-6 center-nav">
+                    <a class="navbar-brand pull-right" href="{{ path('homepage') }}">
+                <span>
+                    <img id="qm" class="img-responsive2" src="{{ asset('images/qm.png') }}">
+                    ponder
+                </span>
+                    </a>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-6 text-center center-nav search-box">
+                    <form class="navbar-form" role="search">
+                        <div id="imaginary_container">
+                            <div class="input-group stylish-input-group">
+                                <input type="text" class="form-control" placeholder="Search" id="search" autofocus>
+                                <span class="input-group-addon" id="custom-search-btn">
+                            <button type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 col-sm-4 text-left center-nav">
+                    <ul class="nav navbar-nav float-left-list">
+                        <li>
+                            <a href="{{ path('homepage') }}">
+                                <img class="menu-icon" src="{{ asset('images/main.png') }}">
+                            </a>
+                        </li>
+                        <li>
+                            <!--notifications-->
+                            <a href="#">
+                                <img class="menu-icon" src="{{ asset('images/heart.png') }}">
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="modal" data-target="#account-modal">
+                                <img class="menu-icon" src="{{ asset('images/user.png') }}">
+                            </a>
+                        </li>
+    {% if app.user %}
+                        <li>
+                            <a href="{{ path('security_logout') }}" onclick="socialLogout()">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>Logout
+                            </a>
+                        </li>
+    {% else %}
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#loginRegisterModal">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>Login
+                            </a>
+                        </li>
+    {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
 {% endblock %}
-
-{% block container %}
-    {% block body %}
-    {% endblock %}
+{% block body %}
 {% endblock %}
-
 {% block footer %}
-    {% include "::inc/footer.html.twig" %}
 {% endblock %}
+<!-- Modal -->
+        <div class="modal fade" id="loginRegisterModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="login">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Please Log In, or <a href="#register" role="tab" data-toggle="tab">Sign Up</a> to get full site access</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-6" style="padding-bottom: 1em;">
+                                        <div class="fb-login-button" data-scope="public_profile,email,user_birthday,user_location,publish_actions" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" data-onlogin="checkLoginState();"></div>
+                                        <!-- <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a> -->
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="g-signin2" data-width="236" data-height="40" data-longtitle="true" data-theme="dark" data-onsuccess="onSignIn" data-onfailure="onSignInFailure" data-auto-logout-link="false"></div>
+                                        <!-- <a href="#" class="btn btn-lg btn-info btn-block">Google</a> -->
+                                    </div>
+                                </div>
+                                <div class="login-or">
+                                    <hr class="hr-or">
+                                    <span class="span-or">or</span>
+                                </div>
+                                <form id="login-form" role="form" action="{{ path('security_login') }}" method="post">
+                                    <div class="form-group">
+                                        <label for="username">Your email</label>
+                                        <input type="text" class="form-control" id="username" name="_userName" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <a class="pull-right" href="#resetPassword" role="tab" data-toggle="tab">Forgot password?</a>
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="_password">
+                                    </div>
+                                    <div class="checkbox pull-right">
+                                        <label><input type="checkbox" name="_remember_me" checked>Remember me</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Log In</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="register">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Please Sign Up, or <a href="#login" role="tab" data-toggle="tab">Log In</a> to get full site access</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form id="register-form" name="user_registration_form" role="form" action="{{ path('user_register') }}" method="post" novalidate>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_userName" class="col-sm-3 control-label">Username</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="user_registration_form_userName" name="user_registration_form[userName]" placeholder="Username" class="form-control" autofocus>
+                                            <span class="help-block">Username can contain any letters or numbers, without spaces</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_email" class="col-sm-3 control-label">Email</label>
+                                        <div class="col-sm-9">
+                                            <input type="email" id="user_registration_form_email" name="user_registration_form[email]" placeholder="Email" class="form-control">
+                                            <span class="help-block">Please provide your E-mail</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_plainPassword_password" class="col-sm-3 control-label">Password</label>
+                                        <div class="col-sm-9">
+                                            <input type="password" id="user_registration_form_plainPassword_password" name="user_registration_form[plainPassword][password]" placeholder="Password" class="form-control">
+                                            <span class="help-block">Password should be at least 5 characters</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_plainPassword_confirm" class="col-sm-3 control-label">Password (Confirm)</label>
+                                        <div class="col-sm-9">
+                                            <input type="password" id="user_registration_form_plainPassword_confirm" name="user_registration_form[plainPassword][confirm]" placeholder="Password" class="form-control">
+                                            <span class="help-block">Please confirm password</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_birthDate" class="col-sm-3 control-label">Date of Birth</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                                                <input type="text" id="user_registration_form_birthDate" class="form-control" name="user_registration_form[birthDate]" placeholder="yyyy-mm-dd">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-th"></span>
+                                                </div>
+                                            </div>
+                                            <!-- <input type="date" id="birthDate" class="form-control"> -->
+                                            <span class="help-block">Please provide your Date of Birth</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Gender</label>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="user_registration_form[gender]" value="female">Female
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="user_registration_form[gender]" value="male">Male
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-9 col-sm-offset-3">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="user_registration_form[termsAccepted]" checked>I accept <a href="#">terms</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Register</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="resetPassword">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Please <a href="#login" role="tab" data-toggle="tab">Log In</a> to get full site access</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h3><i class="fa fa-lock fa-4x"></i></h3>
+                                <h2>Forgot Password?</h2>
+                                <p>You can reset your password here.</p>
+                                <form role="form">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                                            <input id="email" name="_email" placeholder="E-mail address" class="form-control"  type="email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% block javascripts %}
-    <script src="{{ asset('js/script.js') }}"></script>
-{% endblock %}
-</body>
+        <script src="{{ asset('js/script.js') }}"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+        <script>
+            // This is called with the results from from FB.getLoginStatus().
+            function statusChangeCallback(response) {
+                if (response.status === 'connected') {
+                    // retrieve the user access token and pass to your backend:
+                    var accessToken = response.authResponse.accessToken;
+                    FB.api('/me', 'get', {locale: 'en_US', fields: 'first_name,last_name,short_name,email,birthday,gender,location,locale'}, function(response) {
+                        response.name = (response.first_name) ? response.first_name : response.last_name;
+                        response.accessToken = accessToken;
+                        $.ajax({
+                            url: "/social_login",
+                            method: 'POST',
+                            data: {form: response},
+                            success: function(data) {
+                                window.location.reload();
+                            },
+                            error: function(jqXHR) {
+                                $("#login-form").prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + JSON.parse(jqXHR.responseText).message + '</div>');
+                            }
+                        });
+                    });
+                } else {
+                    // The person is not logged into your app or we are unable to tell.
+                }
+            }
 
+            // This function is called when someone finishes with the Login
+            // Button.  See the onlogin handler attached to it in the sample
+            // code below.
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '216907758801486',
+                    cookie     : true,  // enable cookies to allow the server to access the session
+                    xfbml      : true,  // parse social plugins on this page
+                    version    : 'v2.8' // use graph api version 2.8
+                });
+            };
+
+            // Load the SDK asynchronously
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            function facebookLogout() {
+                FB.logout(function(response) {
+                    // user is now logged out
+                });
+            }
+
+            function onSignIn(googleUser) {
+                if (document.getElementById("loginRegisterModal").style.display === "block") {
+                    var profile = googleUser.getBasicProfile();
+                    var name = (profile.getGivenName()) ? profile.getGivenName() : profile.getFamilyName();
+                    $.ajax({
+                        url: "/social_login",
+                        method: 'POST',
+                        data: {
+                            form: {
+                                name: name,
+                                email: profile.getEmail(),
+                                id_token: googleUser.getAuthResponse().id_token
+                            }
+                        },
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                        error: function (jqXHR) {
+                            $("#login-form").prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + JSON.parse(jqXHR.responseText).message + '</div>');
+                        }
+                    });
+                }
+            }
+            function onSignInFailure(error) {
+                console.log(error);
+            }
+            function googleSignOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                });
+            }
+
+            function socialLogout() {
+                googleSignOut();
+                facebookLogout();
+            }
+
+            $(document).ready(function() {
+                $('#register-form').on('submit', function (e) {
+                    e.preventDefault();
+                    var $form = $(e.currentTarget);
+                    $.ajax({
+                        url: $form.attr('action'),
+                        method: 'POST',
+                        data: $form.serialize(),
+                        success: function(data) {
+                            window.location.reload();
+                        },
+                        error: function(jqXHR) {
+                            $($form).prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + JSON.parse(jqXHR.responseText).message + '</div>');
+                        }
+                    });
+                });
+                $('#login-form').on('submit', function (e) {
+                    e.preventDefault();
+                    var $form = $(e.currentTarget);
+                    $.ajax({
+                        url: $form.attr('action'),
+                        method: 'POST',
+                        data: $form.serialize(),
+                        success: function(data) {
+                            window.location.reload();
+                        },
+                        error: function(jqXHR) {
+                            $($form).prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + JSON.parse(jqXHR.responseText).message + '</div>');
+                        }
+                    });
+                });
+            });
+        </script>
+{% endblock %}
+    </body>
 </html>

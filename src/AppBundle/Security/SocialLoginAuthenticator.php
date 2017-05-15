@@ -6,9 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -24,18 +22,15 @@ class SocialLoginAuthenticator extends AbstractGuardAuthenticator
 
     public function getCredentials(Request $request)
     {
-        return $request->headers->get('X-TOKEN');
+        // get the value of a $_POST parameter
+        $form = $request->request->get('form');
+        return is_array($form) ? (array_key_exists('email', $form) ? $form['email'] : null) : null;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $user = $this->em->getRepository('AppBundle:User')
-            ->findOneBy(array('apiToken' => $credentials));
-
-        // we could just return null, but this allows us to control the message a bit more
-        if (!$user) {
-            throw new AuthenticationCredentialsNotFoundException();
-        }
+            ->findOneBy(['email' => $credentials]);
 
         return $user;
     }
@@ -51,18 +46,14 @@ class SocialLoginAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         return new JsonResponse(
-            // you could translate the message
-            array('message' => $exception->getMessageKey()),
+            ['message' => $exception->getMessageKey()],
             403 // Forbidden
         );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        return new JsonResponse(
-            // you could translate the message
-            array('message' => $exception->getMessageKey())
-        );
+        return new JsonResponse();
     }
 
     public function supportsRememberMe()
@@ -73,8 +64,7 @@ class SocialLoginAuthenticator extends AbstractGuardAuthenticator
     public function start(Request $request, AuthenticationException $authException = null)
     {
         return new JsonResponse(
-            // you could translate the message
-            array('message' => 'Authentication required'),
+            ['message' => 'Authentication required'],
             401 // Unauthorized
         );
     }

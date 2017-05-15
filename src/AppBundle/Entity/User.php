@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\Role\Role;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="Users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @UniqueEntity(fields={"userName"}, message="That username is taken!")
+ * @UniqueEntity(groups={"Registration"}, fields={"userName"}, message="That username is taken!")
  * @UniqueEntity(fields={"email"}, message="It looks like your already have an account!")
  */
 class User implements AdvancedUserInterface, \Serializable
@@ -22,7 +21,9 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="userName", type="string", length=32, nullable=false)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Username can not be blank.")
+     * @Assert\Length(min=5, minMessage = "Username must be at least {{ limit }} characters long")
+     * @Assert\Length(max=32, maxMessage = "Username must be at most {{ limit }} characters long")
      */
     private $userName;
 
@@ -31,12 +32,13 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @ORM\Column(name="password", type="string", length=64, nullable=false)
      */
-    private $password;
+    private $password = '';
 
     /**
      * A non-persisted field that's used to create the encoded password.
-     * @Assert\NotBlank(groups={"Registration"})
-     *
+     * @Assert\NotBlank(groups={"Registration"}, message="Password can not be blank.")
+     * @Assert\Length(groups={"Registration"}, min=5, minMessage = "Password must be at least {{ limit }} characters long")
+     * @Assert\Length(groups={"Registration"}, max=32, minMessage = "Password must be at most {{ limit }} characters long")
      * @var string
      */
     private $plainPassword;
@@ -45,8 +47,9 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=64, nullable=false, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Email
+     * @Assert\NotBlank(message="Email can not be blank.")
+     * @Assert\Length(max=64, maxMessage = "Email must be at most {{ limit }} characters long")
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.", checkMX = true)
      */
     private $email = '';
 
@@ -54,6 +57,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="language", type="string", nullable=false)
+     * @Assert\Language()
      */
     private $language = 'en';
 
@@ -75,8 +79,9 @@ class User implements AdvancedUserInterface, \Serializable
      * @var \DateTime
      *
      * @ORM\Column(name="birthDate", type="date", nullable=false)
+     * @Assert\Date(message="Date of Birth is invalid.")
      */
-    private $birthDate = '2000-01-01';
+    private $birthDate;
 
     /**
      * @var integer
@@ -110,8 +115,10 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="gender", type="string", nullable=false)
+     * @Assert\NotBlank(message="Gender can not be blank.")
+     * @Assert\Choice(groups={"Registration"}, choices = { "male", "female" }, message = "Choose a valid gender.")
      */
-    private $gender;
+    private $gender = 'unknown';
 
     /**
      * @var integer
@@ -122,7 +129,13 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $userId;
 
-
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->birthDate = new \DateTime('2000-01-01');
+    }
 
     /**
      * Set userName
@@ -157,7 +170,9 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        if ($password) {
+            $this->password = $password;
+        }
 
         return $this;
     }
@@ -277,7 +292,9 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setBirthDate($birthDate)
     {
-        $this->birthDate = $birthDate;
+        if ($birthDate) {
+            $this->birthDate = $birthDate;
+        }
 
         return $this;
     }
@@ -397,7 +414,9 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setGender($gender)
     {
-        $this->gender = $gender;
+        if ($gender) {
+            $this->gender = $gender;
+        }
 
         return $this;
     }
@@ -514,4 +533,13 @@ class User implements AdvancedUserInterface, \Serializable
         // Doctrine *not* saving this entity, if only plainPassword changes
         $this->password = null;
     }
+
+    /**
+     * @Assert\IsTrue(groups={"Registration"}, message = "The password cannot match your username")
+     */
+    public function isPasswordLegal()
+    {
+        return $this->userName !== $this->password;
+    }
+
 }
