@@ -62,7 +62,7 @@ class Poll
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="authorId", referencedColumnName="userId")
+     *   @ORM\JoinColumn(name="authorId", referencedColumnName="userId", nullable=true)
      * })
      */
     private $authorId;
