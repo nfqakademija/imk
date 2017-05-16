@@ -62,11 +62,7 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator
     {
         $plainPassword = $credentials['password'];
 
-        if ($this->passwordEncoder->isPasswordValid($user, $plainPassword)) {
-            return true;
-        }
-
-        return null;
+        return ($this->passwordEncoder->isPasswordValid($user, $plainPassword));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)

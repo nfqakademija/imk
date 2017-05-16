@@ -130,14 +130,6 @@ class User implements AdvancedUserInterface, \Serializable
     private $userId;
 
     /**
-     * User constructor.
-     */
-    public function __construct()
-    {
-        $this->birthDate = new \DateTime('2000-01-01');
-    }
-
-    /**
      * Set userName
      *
      * @param string $userName
@@ -292,9 +284,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setBirthDate($birthDate)
     {
-        if ($birthDate) {
-            $this->birthDate = $birthDate;
-        }
+        $this->birthDate = $birthDate;
 
         return $this;
     }
@@ -458,27 +448,19 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function isEnabled()
     {
-        if ($this->level >= 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($this->level >= 1);
     }
 
     public function getRoles()
     {
-        if ($this->level >= 1000) {
-            return ['ROLE_ADMIN'];
-        } else {
-            return ['ROLE_USER'];
-        }
+        return ($this->level >= 1000) ? ['ROLE_ADMIN'] : ['ROLE_USER'];
     }
 
     public function setRoles($roles)
     {
         if (in_array('ROLE_ADMIN', $roles)) {
             if ($this->level < 1000) {
-                $this->level += 1000;
+                $this->level = 1000;
             }
         } else {
             $this->level = 1;

@@ -4,8 +4,8 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -29,7 +29,7 @@ class UserRegistrationForm extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'first_name'  => 'password',
                 'second_name' => 'confirm'])
-            ->add('birthDate', DateType::class, [
+            ->add('birthDate', BirthdayType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'html5' => false])
