@@ -2,20 +2,28 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
  * @ORM\Table(name="Users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity(groups={"Registration"}, fields={"userName"}, message="That username is taken!")
+ * @UniqueEntity(fields={"email"}, message="It looks like your already have an account!")
  */
-class User
+class User implements AdvancedUserInterface, \Serializable
 {
     /**
      * @var string
      *
      * @ORM\Column(name="userName", type="string", length=32, nullable=false)
+     * @Assert\NotBlank(message="Username can not be blank.")
+     * @Assert\Length(min=5, minMessage = "Username must be at least {{ limit }} characters long")
+     * @Assert\Length(max=32, maxMessage = "Username must be at most {{ limit }} characters long")
      */
     private $userName;
 
@@ -24,12 +32,24 @@ class User
      *
      * @ORM\Column(name="password", type="string", length=64, nullable=false)
      */
-    private $password;
+    private $password = '';
+
+    /**
+     * A non-persisted field that's used to create the encoded password.
+     * @Assert\NotBlank(groups={"Registration"}, message="Password can not be blank.")
+     * @Assert\Length(groups={"Registration"}, min=5, minMessage = "Password must be at least {{ limit }} characters long")
+     * @Assert\Length(groups={"Registration"}, max=32, minMessage = "Password must be at most {{ limit }} characters long")
+     * @var string
+     */
+    private $plainPassword;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=64, nullable=false)
+     * @ORM\Column(name="email", type="string", length=64, nullable=false, unique=true)
+     * @Assert\NotBlank(message="Email can not be blank.")
+     * @Assert\Length(max=64, maxMessage = "Email must be at most {{ limit }} characters long")
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.", checkMX = true)
      */
     private $email = '';
 
@@ -37,6 +57,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="language", type="string", nullable=false)
+     * @Assert\Language()
      */
     private $language = 'en';
 
@@ -58,8 +79,9 @@ class User
      * @var \DateTime
      *
      * @ORM\Column(name="birthDate", type="date", nullable=false)
+     * @Assert\Date(message="Date of Birth is invalid.")
      */
-    private $birthDate = '2000-01-01';
+    private $birthDate;
 
     /**
      * @var integer
@@ -87,14 +109,16 @@ class User
      *
      * @ORM\Column(name="level", type="integer", nullable=false)
      */
-    private $level = '0';
+    private $level = '1';
 
     /**
      * @var string
      *
      * @ORM\Column(name="gender", type="string", nullable=false)
+     * @Assert\NotBlank(message="Gender can not be blank.")
+     * @Assert\Choice(groups={"Registration"}, choices = { "male", "female" }, message = "Choose a valid gender.")
      */
-    private $gender;
+    private $gender = 'unknown';
 
     /**
      * @var integer
@@ -104,8 +128,6 @@ class User
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $userId;
-
-
 
     /**
      * Set userName
@@ -140,7 +162,9 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        if ($password) {
+            $this->password = $password;
+        }
 
         return $this;
     }
@@ -380,7 +404,9 @@ class User
      */
     public function setGender($gender)
     {
-        $this->gender = $gender;
+        if ($gender) {
+            $this->gender = $gender;
+        }
 
         return $this;
     }
@@ -404,4 +430,98 @@ class User
     {
         return $this->userId;
     }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return ($this->level >= 1);
+    }
+
+    public function getRoles()
+    {
+        return ($this->level >= 1000) ? ['ROLE_ADMIN'] : ['ROLE_USER'];
+    }
+
+    public function setRoles($roles)
+    {
+        if (in_array('ROLE_ADMIN', $roles)) {
+            if ($this->level < 1000) {
+                $this->level = 1000;
+            }
+        } else {
+            $this->level = 1;
+        }
+    }
+
+    public function getSalt()
+    {
+        // See "Do you need to use a Salt?" at http://symfony.com/doc/current/cookbook/security/entity_provider.html
+        // we're using bcrypt in security.yml to encode the password, so
+        // the salt value is built-in and you don't have to generate one
+
+        return;
+    }
+
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->userId,
+            $this->userName,
+            $this->password,
+            $this->email,
+            $this->level
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->userId,
+            $this->userName,
+            $this->password,
+            $this->email,
+            $this->level
+            ) = unserialize($serialized);
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+        // forces the object to look "dirty" to Doctrine. Avoids
+        // Doctrine *not* saving this entity, if only plainPassword changes
+        $this->password = null;
+    }
+
+    /**
+     * @Assert\IsTrue(groups={"Registration"}, message = "The password cannot match your username")
+     */
+    public function isPasswordLegal()
+    {
+        return $this->userName !== $this->password;
+    }
+
 }

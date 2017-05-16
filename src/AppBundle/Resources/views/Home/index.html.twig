@@ -2,70 +2,68 @@
 
 {% block title %} Main - {{ parent() }}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
-{% block body %}
-
+    {% block content %}
 {#post example#}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 post-block">
-            <div class="panel panel-default center-block">
-                <div class="panel-heading">
-                    <ul class="list-inline">
-                        <li class="user-name"><a>User123:</a></li>
-                        <li>Adoption?</li>
-                        <li class="pull-right post-time">15 min</li>
-                    </ul>
+{#<div class="container">#}
+    {#<div class="row">#}
+        {#<div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 post-block">#}
+            {#<div class="panel panel-default center-block">#}
+                {#<div class="panel-heading">#}
+                    {#<ul class="list-inline">#}
+                        {#<li class="user-name"><a>User123:</a></li>#}
+                        {#<li>Adoption?</li>#}
+                        {#<li class="pull-right post-time">15 min</li>#}
+                    {#</ul>#}
+                {#</div>#}
+                {#<div class="crop panel-images row">#}
+                    {#<label for="radio-1">#}
+                        {#<input id="radio-1" type="radio" name="post-1" value="left"/>#}
+                        {#<img src="images/opt1.jpg">#}
+                    {#</label>#}
+                    {#<label for="radio-2">#}
+                        {#<input id="radio-2" type="radio" name="post-1" value="right"/>#}
+                        {#<img src="images/opt2.jpg">#}
+                    {#</label>#}
+                {#</div>#}
+                {#<div class="panel-body post-tags">#}
+                    {#<a class="pointable">#kittens</a>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
+        <div id="wrapper" class="row">
+            <div class="col-sm-3">
+                <div class="row">
+                    <div style="height: 200px; background: lightgreen none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 250px; background: pink none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 200px; background: orange none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 200px; background: green none repeat scroll 0% 0%;">random text</div>
                 </div>
-                <div class="crop panel-images row">
-                    <label for="radio-1">
-                        <input id="radio-1" type="radio" name="post-1" value="left"/>
-                        <img src="images/opt1.jpg">
-                    </label>
-                    <label for="radio-2">
-                        <input id="radio-2" type="radio" name="post-1" value="right"/>
-                        <img src="images/opt2.jpg">
-                    </label>
+            </div>
+            <div class="col-sm-3">
+                <div class="row">
+                    <div style="height: 250px; background: maroon none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 250px; background: yellow none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 150px; background: magenta none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 200px; background: lightgray none repeat scroll 0% 0%;">random text</div>
                 </div>
-                <div class="panel-body post-tags">
-                    <a class="pointable">#kittens</a>
+            </div>
+            <div class="col-sm-3">
+                <div class="row">
+                    <div style="height: 150px; background: gold none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 200px; background: lightblue none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 250px; background: purple none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 200px; background: brown none repeat scroll 0% 0%;">random text</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="row">
+                    <div style="height: 200px; background: red none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 150px; background: green none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 250px; background: blue none repeat scroll 0% 0%;">random text</div>
+                    <div style="height: 100px; background: lightyellow none repeat scroll 0% 0%;">random text</div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 post-block">
-            <div class="panel panel-default center-block">
-                <div class="panel-heading">
-                    <ul class="list-inline">
-                        <li class="user-name"><a>Slim_Shady:</a></li>
-                        <li></li>
-                        <li class="pull-right post-time">1 h</li>
-                    </ul>
-                </div>
-                <div class="crop panel-images row">
-                    <label for="radio-3">
-                        <input id="radio-3" type="radio" name="post-2" value="left"/>
-                        <img src="images/opt3.jpg">
-                    </label>
-                    <label for="radio-4">
-                        <input id="radio-4" type="radio" name="post-2" value="right"/>
-                        <img src="images/opt4.jpg">
-                    </label>
-                </div>
-                <div class="panel-body post-tags">
-                    <a class="pointable">#street</a>
-                    <a class="pointable">#style</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{% endblock %}
+    {% endblock %}

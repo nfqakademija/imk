@@ -60,7 +60,7 @@ class PollCategory
      *
      * @return PollCategory
      */
-    public function setPollId(\AppBundle\Entity\Polls $pollId = null)
+    public function setPollId(\AppBundle\Entity\Poll $pollId)
     {
         $this->pollId = $pollId;
 
@@ -84,7 +84,7 @@ class PollCategory
      *
      * @return PollCategory
      */
-    public function setCategoryId(\AppBundle\Entity\Category $categoryId = null)
+    public function setCategoryId(\AppBundle\Entity\Category $categoryId)
     {
         $this->categoryId = $categoryId;
 

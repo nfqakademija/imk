@@ -1,36 +1,396 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %}{{ "Ponder" }}{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>{% block title %}Ponder{% endblock %}</title>
     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+        {#<link rel="stylesheet" href="{{ asset('css/style.css') }}"/>#}
         <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker3.min.css">
     {% endblock %}
-    {% block canonical_meta %}
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="904757022716-c30u5l4f8tb1nv9d7c1lmkgkoojk1f7b.apps.googleusercontent.com">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+        <style type="text/css">
+/* custom styling */
+            body {
+                font-family: 'Comfortaa', cursive;
+                background-color: #eae5ee;
+                color: #5e548e;
+            }
+
+            .navbar {
+                background-color: white;
+                border-color: rgba(189, 183, 206, 0.9);
+                box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+            }
+
+/* login modal */
+            .login-or {
+                position: relative;
+                font-size: 18px;
+                color: #aaa;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .span-or {
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: -2px;
+                margin-left: -25px;
+                background-color: #fff;
+                width: 50px;
+                text-align: center;
+            }
+            .hr-or {
+                background-color: #cdcdcd;
+                height: 1px;
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+            }
+        </style>
+    </head>
+    <body>
+    {% block header %}
+        <div class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img class="navbar-brand" src="{{ asset('images/qm.png') }}">
+                    <a class="navbar-brand" href="/">ponder</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if app.user %}
+                            <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-heart"></span> My Recent Tags <span class="caret"></span></a>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li><a href="https://github.com/MaxCDN/bootstrap-cdn" data-ga-category="Navigation" data-ga-action="Resources" data-ga-label="GitHub project" target="_blank" rel="noopener">GitHub project</a>
+                                    </li>
+                                    <li><a href="https://wordpress.org/plugins/bootstrapcdn/" data-ga-category="Navigation" data-ga-action="Resources" data-ga-label="WordPress Plugin" target="_blank" rel="noopener">WordPress Plugin</a>
+                                    </li>
+                                    <li><a href="http://getbootstrap.com/" data-ga-category="Navigation" data-ga-action="Resources" data-ga-label="Bootstrap" target="_blank" rel="noopener">Bootstrap</a>
+                                    </li>
+                                    <li><a href="http://expo.getbootstrap.com/" data-ga-category="Navigation" data-ga-action="Resources" data-ga-label="Expo" target="_blank" rel="noopener">Bootstrap Expo</a>
+                                    </li>
+                                    <li><a href="http://fontawesome.io/" data-ga-category="Navigation" data-ga-action="Resources" data-ga-label="Font Awesome" target="_blank" rel="noopener">Font Awesome</a>
+                                    </li>
+                                    <li><a href="http://bootswatch.com/" data-ga-category="Navigation" data-ga-action="Resources" data-ga-label="Bootswatch" target="_blank" rel="noopener">Bootswatch</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        {% if app.user %}
+                            <li><a href="{{ path('security_logout') }}" onclick="socialLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                            </li>
+                        {% else %}
+                            <li><a href="#" data-toggle="modal" data-target="#loginRegisterModal"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     {% endblock %}
-</head>
-
-<body>
-
-{% block header %}
-    {% include "::inc/header.html.twig" %}
-{% endblock %}
-
-{% block container %}
-    {% block body %}
+    {% block content %}
     {% endblock %}
-{% endblock %}
-
-{% block footer %}
-    {% include "::inc/footer.html.twig" %}
-{% endblock %}
+<!-- Modal -->
+        <div class="modal fade" id="loginRegisterModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="login">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Please Log In, or <a href="#register" role="tab" data-toggle="tab">Sign Up</a> to get full site access</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-6" style="padding-bottom: 1em;">
+                                        <div class="fb-login-button" data-scope="public_profile,email,user_birthday,user_location,publish_actions" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" data-onlogin="checkLoginState();"></div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="g-signin2" data-width="236" data-height="40" data-longtitle="true" data-theme="dark" data-onsuccess="onSignIn" data-onfailure="onSignInFailure" data-auto-logout-link="false"></div>
+                                    </div>
+                                </div>
+                                <div class="login-or">
+                                    <hr class="hr-or">
+                                    <span class="span-or">or</span>
+                                </div>
+                                <form id="login-form" role="form" action="{{ path('security_login') }}" method="post">
+                                    <div class="form-group">
+                                        <label for="username">Your email</label>
+                                        <input type="text" class="form-control" id="username" name="_userName" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <a class="pull-right" href="#resetPassword" role="tab" data-toggle="tab">Forgot password?</a>
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="_password">
+                                    </div>
+                                    <div class="checkbox pull-right">
+                                        <label><input type="checkbox" name="_remember_me" checked>Remember me</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Log In</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="register">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Please Sign Up, or <a href="#login" role="tab" data-toggle="tab">Log In</a> to get full site access</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form id="register-form" name="user_registration_form" role="form" action="{{ path('user_register') }}" method="post" novalidate>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_userName" class="col-sm-3 control-label">Username</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="user_registration_form_userName" name="user_registration_form[userName]" placeholder="Username" class="form-control" autofocus>
+                                            <span class="help-block">Username can contain any letters or numbers, without spaces</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_email" class="col-sm-3 control-label">Email</label>
+                                        <div class="col-sm-9">
+                                            <input type="email" id="user_registration_form_email" name="user_registration_form[email]" placeholder="Email" class="form-control">
+                                            <span class="help-block">Please provide your E-mail</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_plainPassword_password" class="col-sm-3 control-label">Password</label>
+                                        <div class="col-sm-9">
+                                            <input type="password" id="user_registration_form_plainPassword_password" name="user_registration_form[plainPassword][password]" placeholder="Password" class="form-control">
+                                            <span class="help-block">Password should be at least 5 characters</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_plainPassword_confirm" class="col-sm-3 control-label">Password (Confirm)</label>
+                                        <div class="col-sm-9">
+                                            <input type="password" id="user_registration_form_plainPassword_confirm" name="user_registration_form[plainPassword][confirm]" placeholder="Password" class="form-control">
+                                            <span class="help-block">Please confirm password</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_registration_form_birthDate" class="col-sm-3 control-label">Date of Birth</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                                                <input type="text" id="user_registration_form_birthDate" class="form-control" name="user_registration_form[birthDate]" placeholder="yyyy-mm-dd">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-th"></span>
+                                                </div>
+                                            </div>
+                                            <span class="help-block">Please provide your Date of Birth</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Gender</label>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="user_registration_form[gender]" value="female">Female
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="user_registration_form[gender]" value="male">Male
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-9 col-sm-offset-3">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="user_registration_form[termsAccepted]" checked>I accept <a href="#">terms</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Register</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="resetPassword">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Please <a href="#login" role="tab" data-toggle="tab">Log In</a> to get full site access</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h3><i class="fa fa-lock fa-4x"></i></h3>
+                                <h2>Forgot Password?</h2>
+                                <p>You can reset your password here.</p>
+                                <form role="form">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                                            <input id="email" name="_email" placeholder="E-mail address" class="form-control"  type="email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% block javascripts %}
-    <script src="{{ asset('js/script.js') }}"></script>
-{% endblock %}
-</body>
+        {#<script src="{{ asset('js/script.js') }}"></script>#}
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" async defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js" async defer></script>
+        <script>
+            // This is called with the results from from FB.getLoginStatus().
+            function statusChangeCallback(response) {
+                if (response.status === 'connected') {
+                    // retrieve the user access token and pass to your backend:
+                    var accessToken = response.authResponse.accessToken;
+                    FB.api('/me', 'get', {locale: 'en_US', fields: 'first_name,last_name,short_name,email,birthday,gender,location,locale'}, function(response) {
+                        response.name = (response.first_name) ? response.first_name : response.last_name;
+                        response.accessToken = accessToken;
+                        $.ajax({
+                            url: "/social_login",
+                            method: 'POST',
+                            data: {form: response},
+                            success: function(data) {
+                                window.location.reload();
+                            },
+                            error: function(jqXHR) {
+                                $("#login-form").prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + JSON.parse(jqXHR.responseText).message + '</div>');
+                            }
+                        });
+                    });
+                } else {
+                    // The person is not logged into your app or we are unable to tell.
+                }
+            }
 
+            // This function is called when someone finishes with the Login
+            // Button.  See the onlogin handler attached to it in the sample
+            // code below.
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '216907758801486',
+                    cookie     : true,  // enable cookies to allow the server to access the session
+                    xfbml      : true,  // parse social plugins on this page
+                    version    : 'v2.8' // use graph api version 2.8
+                });
+            };
+
+            // Load the SDK asynchronously
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            function facebookLogout() {
+                FB.logout(function(response) {
+                    // user is now logged out
+                });
+            }
+
+            function onSignIn(googleUser) {
+                if (document.getElementById("loginRegisterModal").style.display === "block") {
+                    var profile = googleUser.getBasicProfile();
+                    var name = (profile.getGivenName()) ? profile.getGivenName() : profile.getFamilyName();
+                    $.ajax({
+                        url: "/social_login",
+                        method: 'POST',
+                        data: {
+                            form: {
+                                name: name,
+                                email: profile.getEmail(),
+                                id_token: googleUser.getAuthResponse().id_token
+                            }
+                        },
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                        error: function (jqXHR) {
+                            $("#login-form").prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + JSON.parse(jqXHR.responseText).message + '</div>');
+                        }
+                    });
+                }
+            }
+            function onSignInFailure(error) {
+                console.log(error);
+            }
+            function googleSignOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                });
+            }
+
+            function socialLogout() {
+                googleSignOut();
+                facebookLogout();
+            }
+
+            $(document).ready(function() {
+                $('#register-form').on('submit', function (e) {
+                    e.preventDefault();
+                    var $form = $(e.currentTarget);
+                    $.ajax({
+                        url: $form.attr('action'),
+                        method: 'POST',
+                        data: $form.serialize(),
+                        success: function(data) {
+                            window.location.reload();
+                        },
+                        error: function(jqXHR) {
+                            $($form).prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + JSON.parse(jqXHR.responseText).message + '</div>');
+                        }
+                    });
+                });
+                $('#login-form').on('submit', function (e) {
+                    e.preventDefault();
+                    var $form = $(e.currentTarget);
+                    $.ajax({
+                        url: $form.attr('action'),
+                        method: 'POST',
+                        data: $form.serialize(),
+                        success: function(data) {
+                            window.location.reload();
+                        },
+                        error: function(jqXHR) {
+                            $($form).prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + JSON.parse(jqXHR.responseText).message + '</div>');
+                        }
+                    });
+                });
+            });
+        </script>
+{% endblock %}
+    </body>
 </html>
