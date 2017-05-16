@@ -25,6 +25,7 @@
                         <label for="radio-{{ image.optionId }}">
                             <input id="radio-{{ image.optionId }}" type="radio" name="post-{{ poll.pollid }}" value="left"/>
                             <img src="images/{{ image.content }}">
+                            <span>{{ image.votescount }}</span>
                         </label>
                     {% endfor %}
                     </div>

@@ -159,4 +159,8 @@ class PollOption
     {
         return $this->pollId;
     }
+
+    public function incrementVoteCount(){
+        return $this->votesCount++;
+    }
 }
