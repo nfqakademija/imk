@@ -16,7 +16,11 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:Home:index.html.twig', []);
+        $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->findAll();
+
+        return $this->render('AppBundle:Home:index.html.twig', [
+            'polls' => $polls
+        ]);
     }
 
     /**
@@ -31,6 +35,33 @@ class HomeController extends Controller
             return $category->getTitle();
         }, $result
         ));
+    }
+
+    /**
+     * @Route("/submit", name="submit")
+     */
+    public function newPostAction()
+    {
+
+
+
+        return $this->render(':inc:new_post_form.html.twig', [
+
+        ]);
+    }
+    /**
+     * @Route("/submit/process", name="submit_process")
+     */
+    public function submitProcessAction(Request $request)
+    {
+        $title = $request->request->get('title');
+        $categoryNames = $request->request->get('category');
+        $files = $request->files->get('file');
+
+        $uploader = $this->get('app.postuploader');
+        $uploader->insert($title, $files, $categoryNames);
+
+        return new JsonResponse([]);
     }
 
     /**

@@ -4,10 +4,6 @@ parameters:
 #    parameter_name: value
     image_directory: '%kernel.root_dir%/../web/images'
 services:
-    app.example:
-        class: AppBundle\Service\ExampleService
-        arguments: ["@doctrine.orm.entity_manager"]
-
     app.fileUploader:
         class: AppBundle\Services\FileUploader
         arguments: ['%image_directory%']
