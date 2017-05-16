@@ -45,7 +45,7 @@ class PollOption
     /**
      * @var \AppBundle\Entity\Poll
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll", inversedBy="images")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -153,7 +153,7 @@ class PollOption
     /**
      * Get pollId
      *
-     * @return \AppBundle\Entity\Polls
+     * @return \AppBundle\Entity\Poll
      */
     public function getPollId()
     {
