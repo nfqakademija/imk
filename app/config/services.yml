@@ -2,20 +2,34 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
-  image_directory: '%kernel.root_dir%/../web/images'
+    image_directory: '%kernel.root_dir%/../web/images'
 services:
-#    app.example:
-#        class: AppBundle\Service\ExampleService
-#        arguments: ["@doctrine.orm.entity_manager"]
-  app.fileUploader:
-    class: AppBundle\Services\FileUploader
-    arguments: ['%image_directory%']
+    app.fileUploader:
+        class: AppBundle\Services\FileUploader
+        arguments: ['%image_directory%']
 
-  app.PostUploader:
-    class: AppBundle\Services\PostUploader
-    arguments: [ '@doctrine.orm.default_entity_manager', '@app.fileuploader' ]
+    app.PostUploader:
+        class: AppBundle\Services\PostUploader
+        arguments: [ '@doctrine.orm.default_entity_manager', '@app.fileuploader' ]
 
-  app.twig.extension.date:
-    class: Twig_Extensions_Extension_Date
-    tags:
-      - {name: 'twig.extension'}
+    app.twig.extension.date:
+        class: Twig_Extensions_Extension_Date
+        tags:
+            - {name: 'twig.extension'}
+
+    app.form_login_authenticator:
+        class: AppBundle\Security\FormLoginAuthenticator
+        autowire: true
+    app.social_login_authenticator:
+        class: AppBundle\Security\SocialLoginAuthenticator
+        arguments: ["@doctrine.orm.entity_manager"]
+    app.last_login_subscriber:
+        class: AppBundle\EventListener\LastLoginSubscriber
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_subscriber }
+    app.doctrine.hash_password_listener:
+        class: AppBundle\Doctrine\HashPasswordListener
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }

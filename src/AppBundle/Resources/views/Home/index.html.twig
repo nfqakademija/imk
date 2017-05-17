@@ -2,97 +2,96 @@
 
 {% block title %} Main - {{ parent() }}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-{% endblock %}
+    {% block content %}
+{#Sita dali (istraukta is master/src/AppBundle/Resources/views/Home/index.html.twig)#}
+{#reikia appendinti i zemiau esancius div'us,#}
+{#pirmas db irasas eina i pirma .container.row.col-sm-3.row,#}
+{#antras i antra, trecias i trecia, ketvirtas i ketvirta, po to vel is pradziu:#}
+{#penktas irasas eis i pirma .container.row.col-sm-3.row ir t.t.#}
+        {#{% for poll in polls %}#}
+            {#<div class="col-md-4 col-md-offset-0 col-sm-offset-1 col-sm-10 post-block">#}
+                {#<div class="panel panel-default center-block">#}
+                    {#<div class="panel-heading">#}
+                        {#<ul class="list-inline">#}
+                            {#<li class="user-name"><a>User123:</a></li>#}
+                            {#<li>{{ poll.title }}</li>#}
+                            {#<li class="pull-right post-time">{{ poll.createDate|time_diff|replace({'minutes': 'min', 'ago': ''}) }}</li>#}
+                        {#</ul>#}
+                    {#</div>#}
+                    {#<div class="crop panel-images row">#}
+                        {#{% for image in poll.images %}#}
+                            {#<label for="radio-{{ image.optionId }}">#}
+                                {#<input id="radio-{{ image.optionId }}" type="radio" name="post-{{ poll.pollid }}" value="left"/>#}
+                                {#<img src="images/{{ image.content }}">#}
+                            {#</label>#}
+                        {#{% endfor %}#}
+                    {#</div>#}
+                    {#<div class="panel-body post-tags">#}
+                        {#{% for tag in poll.categories %}#}
+                            {#<a class="pointable" href="/tag/{{ tag.title }}">#{{ tag.title }}</a>#}
+                        {#{% endfor %}#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+            {#{% if loop.index is divisible by(3) and not loop.last %}#}
+                {#</div>#}
+                {#<div class="row">#}
+            {#{% endif %}#}
+        {#{% else %}#}
+            {#<div class="col-md-12 col-md-offset-0 col-sm-offset-1 col-sm-12 post-block">#}
+                {#<div class="panel panel-default center-block">#}
+                    {#<div class="panel-body" style="height: 50%">#}
+                        {#<h1 style="text-align: center">Looks like there aren't any posts yet! </h1>#}
+                        {#<h2 style="text-align: center">Feel free to make a new one</h2>#}
+                        {#<br>#}
+                        {#<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#new-post-modal">Contribute!</button>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#{% endfor %}#}
 
-{% block body %}
-<div class="container">
-    <div class="row">
-    {% for poll in polls %}
-            <div class="col-md-4 col-md-offset-0 col-sm-offset-1 col-sm-10 post-block">
-                <div class="panel panel-default center-block">
-                    <div class="panel-heading">
-                        <ul class="list-inline">
-                            <li class="user-name"><a>User123:</a></li>
-                            <li>{{ poll.title }}</li>
-                            <li class="pull-right post-time">{{ poll.createDate|time_diff|replace({'minutes': 'min', 'ago': ''}) }}</li>
-                        </ul>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div style="height: 200px; background: lightgreen none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 250px; background: pink none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 200px; background: orange none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 200px; background: green none repeat scroll 0% 0%;">random text</div>
                     </div>
-                    <div class="crop panel-images row">
-                    {% for image in poll.images %}
-                        <label for="radio-{{ image.optionId }}">
-                            <input id="radio-{{ image.optionId }}" type="radio" name="post-{{ poll.pollid }}" value="left"/>
-                            <img src="images/{{ image.content }}">
-                        </label>
-                    {% endfor %}
+                </div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div style="height: 250px; background: maroon none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 250px; background: yellow none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 150px; background: magenta none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 200px; background: lightgray none repeat scroll 0% 0%;">random text</div>
                     </div>
-                    <div class="panel-body post-tags">
-                        {% for tag in poll.categories %}
-                        <a class="pointable" href="/tag/{{ tag.title }}">#{{ tag.title }}</a>
-                        {% endfor %}
+                </div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div style="height: 150px; background: gold none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 200px; background: lightblue none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 250px; background: purple none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 200px; background: brown none repeat scroll 0% 0%;">random text</div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div style="height: 200px; background: red none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 150px; background: green none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 250px; background: blue none repeat scroll 0% 0%;">random text</div>
+                        <div style="height: 100px; background: lightyellow none repeat scroll 0% 0%;">random text</div>
                     </div>
                 </div>
             </div>
-
-    {% if loop.index is divisible by(3) and not loop.last %}
         </div>
-        <div class="row">
-    {% endif %}
-    {% else %}
-        <div class="col-md-12 col-md-offset-0 col-sm-offset-1 col-sm-12 post-block">
-            <div class="panel panel-default center-block">
-                <div class="panel-body" style="height: 50%">
-                    <h1 style="text-align: center">Looks like there aren't any posts yet! </h1>
-                    <h2 style="text-align: center">Feel free to make a new one</h2>
-                    <br>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#new-post-modal">Contribute!</button>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
 
-</div>
+        {% if polls is not empty %}
+            <!-- Add new post button -->
+            <a href="" class="float" data-toggle="modal" data-target="#new-post-modal">
+                <i class="fa fa-plus fa-2x my-float" ></i>
+            </a>
+        {% endif %}
 
-    {% if polls is not empty %}
-    <!-- Add new post button -->
-    <a href="" class="float" data-toggle="modal" data-target="#new-post-modal">
-        <i class="fa fa-plus fa-2x my-float" ></i>
-    </a>
-    {% endif %}
-
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
-    <script>
-        Dropzone.options.myDropzone = {
-
-            // Prevents Dropzone from uploading dropped files immediately
-            autoProcessQueue: false,
-            uploadMultiple: true,
-            url: '{{ path('submit_process') }}',
-            maxFiles: 4,
-            maxFilesize: 4,
-            parallelUploads:4,
-            acceptedFiles: "image/*",
-
-            init: function() {
-                var submitButton = document.querySelector("#submit-all");
-                myDropzone = this; // closure
-
-                submitButton.addEventListener("click", function() {
-                    myDropzone.processQueue(); // Tell Dropzone to process all queued files.
-                });
-
-                // You might want to show the submit button only when
-                // files are dropped here:
-                this.on("addedfile", function() {
-                    // Show submit button here and/or inform user to click it.
-                });
-
-            }
-        };
-    </script>
-{% endblock javascripts %}
+    {% endblock %}
