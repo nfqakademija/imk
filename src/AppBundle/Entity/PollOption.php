@@ -161,6 +161,6 @@ class PollOption
     }
 
     public function incrementVoteCount(){
-        return $this->votesCount++;
+        return ++$this->votesCount;
     }
 }

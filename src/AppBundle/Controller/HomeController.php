@@ -87,8 +87,6 @@ class HomeController extends Controller
         }
 
         $voteCount = $option->incrementVoteCount();
-        $voteCount++;
-
 
         $this->getDoctrine()->getManager()->flush();
         return $response = new JsonResponse([
