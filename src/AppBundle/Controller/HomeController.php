@@ -65,21 +65,34 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/vote/{decisionId}/{contentId}", name="vote")
+     * @Route("/vote", name="vote")
      */
-    public function voteAction($decisionId, $contentId)
+    public function voteAction(Request $request)
     {
-        //action for voting for selected decision post
-        //When voting icon is clicked, the vote counter is incremented by 1
-        //therefore no twig template is used
+        //TODO: restrinct voting by 1 vote per user
 
-        $response = new JsonResponse();
-        $response->setData([
-            'decisionId' => $decisionId,
-            'contentId' => $contentId,
-            'status' => 'success'
+        $optionId = $request->request->get('optionId');
+        if (!$optionId){
+            return $response = new JsonResponse([
+                'status' => false,
+                'error' => 'No data received.'
+            ]);
+        }
+        $option = $this->getDoctrine()->getManager()->getRepository('AppBundle:PollOption')->find($optionId);
+        if (!$option){
+            return $response = new JsonResponse([
+                'status' => false,
+                'error' => 'Vote option not found.'
+            ]);
+        }
+
+        $voteCount = $option->incrementVoteCount();
+
+        $this->getDoctrine()->getManager()->flush();
+        return $response = new JsonResponse([
+            'success' => true,
+            'voteCount' => $voteCount
         ]);
 
-        return $response;
     }
 }

@@ -25,7 +25,8 @@ gulp.task('scripts', function() {
             dir.npm + 'bootstrap-sass/assets/javascripts/bootstrap.min.js',
             dir.assets + 'scripts/typeahead.bundle.js',
             // Main JS file
-            dir.assets + 'scripts/main.js'
+            dir.assets + 'scripts/main.js',
+            dir.assets + 'scripts/vote.js'
         ])
         .pipe(concat('script.js'))
         .pipe(uglify())
