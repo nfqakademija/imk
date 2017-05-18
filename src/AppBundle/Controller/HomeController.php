@@ -18,7 +18,7 @@ class HomeController extends Controller
     {
         $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->findAll();
 
-        if (!$polls){
+        if (!$polls) {
             return $this->render('AppBundle:Home:index.html.twig', [
                 'polls' => $polls,
                 'error' => 'Looks like there are no posts yet.'
@@ -37,7 +37,7 @@ class HomeController extends Controller
     {
         $searchInput = $request->query->get('tag');
         $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->searchByCategoryOrPollName($searchInput);
-        if (!$polls){
+        if (!$polls) {
             return $this->render('AppBundle:Home:index.html.twig', [
                 'polls' => $polls,
                 'error' => 'Sorry! No entries were found :('
@@ -54,12 +54,17 @@ class HomeController extends Controller
     public function searchAutoCompleteAction(Request $request)
     {
         $searchInput = $request->query->get('tag');
-        $result = $this->getDoctrine()->getRepository('AppBundle:Category')->searchByTitle($searchInput);
-
-        return new JsonResponse(array_map(function (Category $category) {
+        $tags = $this->getDoctrine()->getRepository('AppBundle:Category')->searchByTitle($searchInput);
+        $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->searchByTitle($searchInput);
+        $tagsArray = array_map(function (Category $category) {
             return $category->getTitle();
-        }, $result
-        ));
+        }, $tags);
+        $pollsArray = array_map(function (Array $poll) {
+            return $poll['title'];
+        }, $polls);
+
+        $result = array_merge($tagsArray,$pollsArray);
+        return new JsonResponse($result);
     }
 
     /**
@@ -71,6 +76,7 @@ class HomeController extends Controller
 
         ]);
     }
+
     /**
      * @Route("/submit/process", name="submit_process")
      */
@@ -94,14 +100,14 @@ class HomeController extends Controller
         //TODO: restrinct voting by 1 vote per user
 
         $optionId = $request->request->get('optionId');
-        if (!$optionId){
+        if (!$optionId) {
             return $response = new JsonResponse([
                 'status' => false,
                 'error' => 'No data received.'
             ]);
         }
         $option = $this->getDoctrine()->getManager()->getRepository('AppBundle:PollOption')->find($optionId);
-        if (!$option){
+        if (!$option) {
             return $response = new JsonResponse([
                 'status' => false,
                 'error' => 'Vote option not found.'

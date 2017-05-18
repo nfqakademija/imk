@@ -20,4 +20,13 @@ class PollRepository extends EntityRepository
             ->getQuery()->getResult();
     }
 
+    public function searchByTitle($str){
+        return $this->createQueryBuilder('p')
+            ->select('p.title')
+            ->where('p.title LIKE :str')
+            ->setParameter('str', $str.'%')
+            ->distinct()
+            ->getQuery()->getResult();
+    }
+
 }
