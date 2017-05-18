@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Poll
  *
  * @ORM\Table(name="Polls", indexes={@ORM\Index(name="authorId", columns={"authorId"}), @ORM\Index(name="createDate", columns={"createDate"}), @ORM\Index(name="updateDate", columns={"updateDate"}), @ORM\Index(name="hitsCount", columns={"hitsCount"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PollRepository")
  */
 class Poll
 {
