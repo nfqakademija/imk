@@ -18,6 +18,13 @@ class HomeController extends Controller
     {
         $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->findAll();
 
+        if (!$polls){
+            return $this->render('AppBundle:Home:index.html.twig', [
+                'polls' => $polls,
+                'error' => 'Looks like there are no posts yet.'
+            ]);
+        }
+
         return $this->render('AppBundle:Home:index.html.twig', [
             'polls' => $polls
         ]);
@@ -27,6 +34,24 @@ class HomeController extends Controller
      * @Route("/search", name="search")
      */
     public function searchAction(Request $request)
+    {
+        $searchInput = $request->query->get('tag');
+        $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->searchByCategoryOrPollName($searchInput);
+        if (!$polls){
+            return $this->render('AppBundle:Home:index.html.twig', [
+                'polls' => $polls,
+                'error' => 'Sorry! No entries were found :('
+            ]);
+        }
+        return $this->render('AppBundle:Home:index.html.twig', [
+            'polls' => $polls
+        ]);
+    }
+
+    /**
+     * @Route("/searchAutoComplete", name="searchAutoComplete")
+     */
+    public function searchAutoCompleteAction(Request $request)
     {
         $searchInput = $request->query->get('tag');
         $result = $this->getDoctrine()->getRepository('AppBundle:Category')->searchByTitle($searchInput);
@@ -42,9 +67,6 @@ class HomeController extends Controller
      */
     public function newPostAction()
     {
-
-
-
         return $this->render(':inc:new_post_form.html.twig', [
 
         ]);

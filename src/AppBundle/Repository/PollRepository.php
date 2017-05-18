@@ -12,4 +12,12 @@ class PollRepository extends EntityRepository
         return $this->findBy([], ['createDate' => 'DESC']);
     }
 
+    public function searchByCategoryOrPollName($str){
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.categories', 'c')
+            ->where('c.title LIKE :str OR p.title LIKE :str')
+            ->setParameter('str', $str.'%')
+            ->getQuery()->getResult();
+    }
+
 }
