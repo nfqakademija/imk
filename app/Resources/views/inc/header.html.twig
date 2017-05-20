@@ -9,10 +9,10 @@
             </a>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-6 text-center center-nav search-box">
-            <form class="navbar-form" role="search">
+            <form class="navbar-form" role="search" action="{{ path('search') }}">
                 <div id="imaginary_container">
                     <div class="input-group stylish-input-group">
-                        <input type="text" class="form-control" placeholder="Search" id="search" autofocus>
+                        <input type="text" class="form-control" placeholder="Search" id="search" name="tag" autofocus>
                         <span class="input-group-addon" id="custom-search-btn">
                         <button type="submit">
                             <span class="glyphicon glyphicon-search"></span>

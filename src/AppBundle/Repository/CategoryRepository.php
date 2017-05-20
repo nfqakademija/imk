@@ -11,7 +11,9 @@ class CategoryRepository extends EntityRepository
         return $this->getEntityManager()->createQuery(
             'select c from AppBundle:Category c WHERE c.title LIKE :str'
         )
-            ->setParameter('str', '%' . $str . '%')
+            ->setParameter('str', $str . '%')
             ->getResult();
     }
+
+
 }
