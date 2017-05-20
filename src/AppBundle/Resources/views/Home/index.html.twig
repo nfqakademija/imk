@@ -31,7 +31,7 @@
                     </div>
                     <div class="panel-body post-tags">
                         {% for tag in poll.categories %}
-                        <a class="pointable" href="/tag/{{ tag.title }}">#{{ tag.title }}</a>
+                        <a class="pointable" href="{{ path('search') }}?tag={{ tag.title }}">#{{ tag.title }}</a>
                         {% endfor %}
                     </div>
                 </div>
@@ -45,7 +45,7 @@
         <div class="col-md-12 col-md-offset-0 col-sm-offset-1 col-sm-12 post-block">
             <div class="panel panel-default center-block">
                 <div class="panel-body" style="height: 50%">
-                    <h1 style="text-align: center">Looks like there aren't any posts yet! </h1>
+                    <h1 style="text-align: center">{{ error }} </h1>
                     <h2 style="text-align: center">Feel free to make a new one</h2>
                     <br>
                     <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#new-post-modal">Contribute!</button>

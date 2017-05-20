@@ -18,6 +18,13 @@ class HomeController extends Controller
     {
         $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->findAll();
 
+        if (!$polls) {
+            return $this->render('AppBundle:Home:index.html.twig', [
+                'polls' => $polls,
+                'error' => 'Looks like there are no posts yet.'
+            ]);
+        }
+
         return $this->render('AppBundle:Home:index.html.twig', [
             'polls' => $polls
         ]);
@@ -29,12 +36,37 @@ class HomeController extends Controller
     public function searchAction(Request $request)
     {
         $searchInput = $request->query->get('tag');
-        $result = $this->getDoctrine()->getRepository('AppBundle:Category')->searchByTitle($searchInput);
+        $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->searchByCategoryOrPollName($searchInput);
+        if (!$polls) {
+            return $this->render('AppBundle:Home:index.html.twig', [
+                'polls' => $polls,
+                'error' => 'Sorry! No entries were found :('
+            ]);
+        }
 
-        return new JsonResponse(array_map(function (Category $category) {
+        return $this->render('AppBundle:Home:index.html.twig', [
+            'polls' => $polls
+        ]);
+    }
+
+    /**
+     * @Route("/searchAutoComplete", name="searchAutoComplete")
+     */
+    public function searchAutoCompleteAction(Request $request)
+    {
+        $searchInput = $request->query->get('tag');
+        $tags = $this->getDoctrine()->getRepository('AppBundle:Category')->searchByTitle($searchInput);
+        $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->searchByTitle($searchInput);
+        $tagsArray = array_map(function (Category $category) {
             return $category->getTitle();
-        }, $result
-        ));
+        }, $tags);
+        $pollsArray = array_map(function (array $poll) {
+            return $poll['title'];
+        }, $polls);
+
+        $result = array_merge($tagsArray, $pollsArray);
+
+        return new JsonResponse($result);
     }
 
     /**
@@ -42,13 +74,11 @@ class HomeController extends Controller
      */
     public function newPostAction()
     {
-
-
-
         return $this->render(':inc:new_post_form.html.twig', [
 
         ]);
     }
+
     /**
      * @Route("/submit/process", name="submit_process")
      */
@@ -72,14 +102,14 @@ class HomeController extends Controller
         //TODO: restrinct voting by 1 vote per user
 
         $optionId = $request->request->get('optionId');
-        if (!$optionId){
+        if (!$optionId) {
             return $response = new JsonResponse([
                 'status' => false,
                 'error' => 'No data received.'
             ]);
         }
         $option = $this->getDoctrine()->getManager()->getRepository('AppBundle:PollOption')->find($optionId);
-        if (!$option){
+        if (!$option) {
             return $response = new JsonResponse([
                 'status' => false,
                 'error' => 'Vote option not found.'
@@ -89,6 +119,7 @@ class HomeController extends Controller
         $voteCount = $option->incrementVoteCount();
 
         $this->getDoctrine()->getManager()->flush();
+
         return $response = new JsonResponse([
             'success' => true,
             'voteCount' => $voteCount
