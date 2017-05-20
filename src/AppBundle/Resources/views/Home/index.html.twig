@@ -105,22 +105,64 @@
             maxFiles: 4,
             maxFilesize: 4,
             parallelUploads:4,
-            acceptedFiles: "image/*",
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
 
             init: function() {
-                var submitButton = document.querySelector("#submit-all");
-                myDropzone = this; // closure
+                var submitButton = document.querySelector('#submit-all');
+                var errorElement = $('<div>', {
+                    'class': 'alert alert-danger'});
+                var totalFiles = 0,
+                    completeFiles = 0;
+                myDropzone = this;
 
-                submitButton.addEventListener("click", function() {
-                    myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+                submitButton.addEventListener('click', function() {
+                    var titleValue = $.trim($('#title').val());
+                    var tagValue = $.trim($('#category').val());
+
+                    if (myDropzone.getQueuedFiles().length > 1 && titleValue.length > 0 && tagValue.length > 0) {
+                    myDropzone.processQueue();
+                    $(errorElement).remove();
+                    }
+
+                    else {
+                        if ( titleValue.length == 0 ){
+                            $(errorElement).html('Please enter post title.');
+                            $(errorElement).insertAfter('#title');
+                        } else if ( tagValue.length == 0 ){
+                            $(errorElement).html('Please enter tags');
+                            $(errorElement).insertAfter('#category');
+                        } else if ( myDropzone.getQueuedFiles().length < 2 ){
+                            $(errorElement).html('A minimum of 2 images is required');
+                            $(errorElement).insertAfter('#myDropzone');
+                        }
+
+                    }
+
+                });
+                this.on('successmultiple', function(){
+                    completeFiles += 1;
+                    if (completeFiles === totalFiles){
+                        jQuery('<div/>', {
+                        'class': 'alert alert-success',
+                        text: 'Success',
+                    }
+                    ).insertAfter('#myDropzone');
+
+                    setTimeout(function() {
+                      window.location.reload();
+                    }, 1700);
+                    }
+
                 });
 
-                // You might want to show the submit button only when
-                // files are dropped here:
-                this.on("addedfile", function() {
-                    // Show submit button here and/or inform user to click it.
+                this.on('addedfile', function() {
+                    totalFiles += 1;
                 });
 
+                this.on('removedfile', function() {
+                    totalFiles -= 1;
+                });
             }
         };
     </script>
