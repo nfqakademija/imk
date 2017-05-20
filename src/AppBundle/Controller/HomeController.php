@@ -43,6 +43,7 @@ class HomeController extends Controller
                 'error' => 'Sorry! No entries were found :('
             ]);
         }
+
         return $this->render('AppBundle:Home:index.html.twig', [
             'polls' => $polls
         ]);
@@ -59,11 +60,12 @@ class HomeController extends Controller
         $tagsArray = array_map(function (Category $category) {
             return $category->getTitle();
         }, $tags);
-        $pollsArray = array_map(function (Array $poll) {
+        $pollsArray = array_map(function (array $poll) {
             return $poll['title'];
         }, $polls);
 
-        $result = array_merge($tagsArray,$pollsArray);
+        $result = array_merge($tagsArray, $pollsArray);
+
         return new JsonResponse($result);
     }
 
@@ -117,6 +119,7 @@ class HomeController extends Controller
         $voteCount = $option->incrementVoteCount();
 
         $this->getDoctrine()->getManager()->flush();
+
         return $response = new JsonResponse([
             'success' => true,
             'voteCount' => $voteCount
