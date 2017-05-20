@@ -31,6 +31,17 @@ class HomeController extends Controller
     }
 
     /**
+     * @Route("/view/{id}", name="view", requirements={"id": "\d+"})
+     */
+    public function viewAction($id)
+    {
+        $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->find($id);
+        return $this->render('AppBundle:Home:index.html.twig', [
+            'polls' => $polls
+        ]);
+    }
+
+    /**
      * @Route("/search", name="search")
      */
     public function searchAction(Request $request)
