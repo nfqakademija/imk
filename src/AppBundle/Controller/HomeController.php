@@ -135,6 +135,5 @@ class HomeController extends Controller
             'success' => true,
             'voteCount' => $voteCount
         ]);
-
     }
 }

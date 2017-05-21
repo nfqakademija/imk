@@ -16,5 +16,4 @@ class DecisionsController extends Controller
         return $this->render('AppBundle:Decisions:new_decision.html.twig', [// ...
         ]);
     }
-
 }
