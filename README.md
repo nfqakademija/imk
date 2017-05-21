@@ -1,6 +1,7 @@
 
 Komanda IMK
 ============
+[![Build Status](https://travis-ci.org/nfqakademija/imk.svg?branch=master)](https://travis-ci.org/nfqakademija/imk)
 ### http://imk.projektai.nfqakademija.lt/
 
 # Installation
