@@ -16,8 +16,7 @@
                 <div class="panel panel-default center-block">
                     <div class="panel-heading">
                         <ul class="list-inline">
-                            <li class="user-name"><a>User123:</a></li>
-                            <li><a href="view/{{ poll.pollId }}">{{ poll.title }}</a></li>
+                            <li class="user-name"><a href="view/{{ poll.pollId }}">{{ poll.title }}</a></li>
                             <li class="pull-right post-time">{{ poll.createDate|time_diff|replace({'minutes': 'min', 'ago': ''}) }}</li>
                         </ul>
                     </div>
