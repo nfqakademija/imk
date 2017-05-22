@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+// @codingStandardsIgnoreStart
 /**
  * PollVoter
  *
@@ -163,3 +164,4 @@ class PollVoter
         return $this->voterId;
     }
 }
+// @codingStandardsIgnoreEnd

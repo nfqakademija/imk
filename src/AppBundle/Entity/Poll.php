@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+// @codingStandardsIgnoreStart
 /**
  * Poll
  *
@@ -273,3 +274,4 @@ class Poll
         return $this->categories;
     }
 }
+// @codingStandardsIgnoreEnd

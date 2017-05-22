@@ -2,7 +2,6 @@
 
 namespace AppBundle\Services;
 
-
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Poll;
 use AppBundle\Entity\PollOption;
@@ -23,7 +22,6 @@ class PostUploader
         $this->fileUploader = $fileUploader;
         $this->poll = new Poll();
         $this->sequence = 1;
-
     }
 
 
@@ -95,5 +93,4 @@ class PostUploader
             $this->sequence += 1;
         }
     }
-
 }
