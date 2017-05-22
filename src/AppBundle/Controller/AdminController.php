@@ -94,5 +94,4 @@ class AdminController extends Controller
             'id' => $id
         ]);
     }
-
 }

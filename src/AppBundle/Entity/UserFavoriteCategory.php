@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+// @codingStandardsIgnoreStart
 /**
  * UserFavoriteCategory
  *
@@ -132,3 +133,4 @@ class UserFavoriteCategory
         return $this->categoryId;
     }
 }
+// @codingStandardsIgnoreEnd

@@ -14,6 +14,4 @@ class CategoryRepository extends EntityRepository
             ->setParameter('str', $str . '%')
             ->getResult();
     }
-
-
 }

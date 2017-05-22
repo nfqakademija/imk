@@ -12,5 +12,4 @@ class DecisionsControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/new');
     }
-
 }

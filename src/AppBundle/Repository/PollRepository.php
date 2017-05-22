@@ -2,7 +2,6 @@
 
 namespace AppBundle\Repository;
 
-
 use Doctrine\ORM\EntityRepository;
 
 class PollRepository extends EntityRepository
@@ -12,7 +11,8 @@ class PollRepository extends EntityRepository
         return $this->findBy([], ['createDate' => 'DESC']);
     }
 
-    public function searchByCategoryOrPollName($str){
+    public function searchByCategoryOrPollName($str)
+    {
         return $this->createQueryBuilder('p')
             ->innerJoin('p.categories', 'c')
             ->where('c.title LIKE :str OR p.title LIKE :str')
@@ -20,7 +20,8 @@ class PollRepository extends EntityRepository
             ->getQuery()->getResult();
     }
 
-    public function searchByTitle($str){
+    public function searchByTitle($str)
+    {
         return $this->createQueryBuilder('p')
             ->select('p.title')
             ->where('p.title LIKE :str')
@@ -28,5 +29,4 @@ class PollRepository extends EntityRepository
             ->distinct()
             ->getQuery()->getResult();
     }
-
 }
