@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+// @codingStandardsIgnoreStart
 /**
  * Country
  *
@@ -157,3 +158,4 @@ class Country
         return $this->id;
     }
 }
+// @codingStandardsIgnoreEnd

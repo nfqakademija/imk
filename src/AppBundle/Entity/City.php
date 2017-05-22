@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+// @codingStandardsIgnoreStart
 /**
  * City
  *
@@ -157,3 +158,4 @@ class City
         return $this->id;
     }
 }
+// @codingStandardsIgnoreEnd
