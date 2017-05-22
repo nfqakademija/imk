@@ -1,13 +1,16 @@
 $("label > img").click(function () {
     var optionId = $(this).parent().attr("for").match(/\d+/).pop();
-    var voteCountElement = $(this).next();
     var optionContainer = $(this).parent();
+  var voteCountElement = $(optionContainer).
+      children(':first-child').
+      children(':first-child').
+      children('span:first-of-type');
 
     post_data = {
         'optionId':optionId
     };
-    
-    $.post('/vote', post_data, function (data) {
+
+  $.post('/vote', post_data, function(data) {
         if (data.success){
             $(voteCountElement).text(data.voteCount);
         } else {

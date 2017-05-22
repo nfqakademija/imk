@@ -21,15 +21,30 @@
                             <li class="pull-right post-time">{{ poll.createDate|time_diff|replace({'minutes': 'min', 'ago': ''}) }}</li>
                         </ul>
                     </div>
-                    <div class="crop panel-images row">
+                    {#<div class="crop panel-images row">#}
                     {% for image in poll.images %}
+                    {% if loop.index is not divisible by(2) or loop.first %}
+                    <div class="crop panel-images row">
+                    {% endif %}
                         <label for="radio-{{ image.optionId }}">
+                            <div class="progress">
+                              <div class="progress-bar progress-bar-voteCount" role="progressbar" style="width:100%">
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                <span>{{ image.votescount }}</span>
+                              </div>
+                            </div>
                             <input id="radio-{{ image.optionId }}" type="radio" name="post-{{ poll.pollid }}" value="left"/>
                             <img src="images/{{ image.content }}">
-                            <span>{{ image.votescount }}</span>
+                            {#<span>{{ image.votescount }}</span>#}
+
                         </label>
-                    {% endfor %}
+
+
+                    {% if loop.index is divisible by(2) or loop.last %}
                     </div>
+                    {% endif %}
+                    {% endfor %}
+                    {#</div>#}
                     <div class="panel-body post-tags">
                         {% for tag in poll.categories %}
                         <a class="pointable" href="{{ path('search') }}?tag={{ tag.title }}">#{{ tag.title }}</a>
@@ -105,22 +120,64 @@
             maxFiles: 4,
             maxFilesize: 4,
             parallelUploads:4,
-            acceptedFiles: "image/*",
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
 
             init: function() {
-                var submitButton = document.querySelector("#submit-all");
-                myDropzone = this; // closure
+                var submitButton = document.querySelector('#submit-all');
+                var errorElement = $('<div>', {
+                    'class': 'alert alert-danger'});
+                var totalFiles = 0,
+                    completeFiles = 0;
+                myDropzone = this;
 
-                submitButton.addEventListener("click", function() {
-                    myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+                submitButton.addEventListener('click', function() {
+                    var titleValue = $.trim($('#title').val());
+                    var tagValue = $.trim($('#category').val());
+
+                    if (myDropzone.getQueuedFiles().length > 1 && titleValue.length > 0 && tagValue.length > 0) {
+                    myDropzone.processQueue();
+                    $(errorElement).remove();
+                    }
+
+                    else {
+                        if ( titleValue.length == 0 ){
+                            $(errorElement).html('Please enter post title.');
+                            $(errorElement).insertAfter('#title');
+                        } else if ( tagValue.length == 0 ){
+                            $(errorElement).html('Please enter tags');
+                            $(errorElement).insertAfter('#category');
+                        } else if ( myDropzone.getQueuedFiles().length < 2 ){
+                            $(errorElement).html('A minimum of 2 images is required');
+                            $(errorElement).insertAfter('#myDropzone');
+                        }
+
+                    }
+
+                });
+                this.on('successmultiple', function(){
+                    completeFiles += 1;
+                    if (completeFiles === totalFiles){
+                        jQuery('<div/>', {
+                        'class': 'alert alert-success',
+                        text: 'Success',
+                    }
+                    ).insertAfter('#myDropzone');
+
+                    setTimeout(function() {
+                      window.location.reload();
+                    }, 1700);
+                    }
+
                 });
 
-                // You might want to show the submit button only when
-                // files are dropped here:
-                this.on("addedfile", function() {
-                    // Show submit button here and/or inform user to click it.
+                this.on('addedfile', function() {
+                    totalFiles += 1;
                 });
 
+                this.on('removedfile', function() {
+                    totalFiles -= 1;
+                });
             }
         };
     </script>
