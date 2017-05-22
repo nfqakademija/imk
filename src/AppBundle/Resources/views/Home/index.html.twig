@@ -10,7 +10,6 @@
 {% block body %}
 <div class="container">
     <div class="row">
-    {% if polls is iterable %}
     {% for poll in polls %}
             <div class="col-md-4 col-md-offset-0 col-sm-offset-1 col-sm-10 post-block">
                 <div class="panel panel-default center-block">
@@ -34,8 +33,6 @@
                             </div>
                             <input id="radio-{{ image.optionId }}" type="radio" name="post-{{ poll.pollid }}" value="left"/>
                             <img src="images/{{ image.content }}">
-                            {#<span>{{ image.votescount }}</span>#}
-
                         </label>
 
 
@@ -44,11 +41,12 @@
                     {% endif %}
                     {% endfor %}
                     {#</div>#}
-                    <div class="panel-body post-tags">
+                    <ul class="panel-body post-tags list-inline">
                         {% for tag in poll.categories %}
-                        <a class="pointable" href="{{ path('search') }}?tag={{ tag.title }}">#{{ tag.title }}</a>
+                        <li><a class="pointable" href="{{ path('search') }}?tag={{ tag.title }}">#{{ tag.title }}</a></li>
                         {% endfor %}
-                    </div>
+                        <li class="addthis_inline_share_toolbox_eaw2 pull-right" data-url="{{ url('view', {'id': poll.pollid}) }}"></li>
+                    </ul>
                 </div>
             </div>
 
@@ -68,33 +66,7 @@
             </div>
         </div>
     {% endfor %}
-    {% else %}
-    <div class="col-md-12 col-md-offset-0 col-sm-offset-1 col-sm-10 post-block">
-        <div class="panel panel-default center-block">
-            <div class="panel-heading">
-                <ul class="list-inline">
-                    <li class="user-name"><a>User123:</a></li>
-                    <li><a href="{{ path('view', {'id': polls.pollId}) }}">{{ polls.title }}</a></li>
-                    <li class="pull-right post-time">{{ polls.createDate|time_diff|replace({'minutes': 'min', 'ago': ''}) }}</li>
-                </ul>
-            </div>
-            <div class="crop panel-images row">
-            {% for image in polls.images %}
-                <label for="radio-{{ image.optionId }}">
-                    <input id="radio-{{ image.optionId }}" type="radio" name="post-{{ polls.pollid }}" value="left"/>
-                    <img src="../images/{{ image.content }}">
-                    <span>{{ image.votescount }}</span>
-                </label>
-            {% endfor %}
-            </div>
-            <div class="panel-body post-tags">
-                {% for tag in polls.categories %}
-                <a class="pointable" href="{{ path('search') }}?tag={{ tag.title }}">#{{ tag.title }}</a>
-                {% endfor %}
-            </div>
-        </div>
     </div>
-    {% endif %}
 
 </div>
 
@@ -159,7 +131,7 @@
                     if (completeFiles === totalFiles){
                         jQuery('<div/>', {
                         'class': 'alert alert-success',
-                        text: 'Success',
+                        text: 'Success'
                     }
                     ).insertAfter('#myDropzone');
 

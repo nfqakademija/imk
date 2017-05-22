@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+{% block title %} Main - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+{% endblock %}
+
+{% block canonical_meta %}
+    {{ parent() }}
+    <meta property="og:site_name" content="Ponder" />
+    <meta property="og:title" content="{{ poll.title }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url('view', {'id': poll.pollId}) }}" />
+    {% for image in poll.images %}
+        {% set fileNameArr = image.content|split('.') %}
+        <meta property="og:image" content="{{ url('homepage') }}images/{{ image.content }}" />
+        <meta property="og:image:type" content="image/{{ fileNameArr[1] }}" />
+    {% endfor %}
+
+{% endblock %}
+
+{% block body %}
+<div class="col-md-12 col-md-offset-0 col-sm-offset-1 col-sm-10 post-block">
+    <div class="panel panel-default center-block">
+        <div class="panel-heading">
+            <ul class="list-inline">
+                <li class="user-name"><a>User123:</a></li>
+                <li><a href="{{ path('view', {'id': poll.pollId}) }}">{{ poll.title }}</a></li>
+                <li class="pull-right post-time">{{ poll.createDate|time_diff|replace({'minutes': 'min', 'ago': ''}) }}</li>
+            </ul>
+        </div>
+        {% for image in poll.images %}
+            {% if loop.index is not divisible by(2) or loop.first %}
+                <div class="crop panel-images row">
+            {% endif %}
+            <label for="radio-{{ image.optionId }}">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-voteCount" role="progressbar" style="width:100%">
+                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                        <span>{{ image.votescount }}</span>
+                    </div>
+                </div>
+                <input id="radio-{{ image.optionId }}" type="radio" name="post-{{ poll.pollid }}" value="left"/>
+                <img src="../images/{{ image.content }}">
+            </label>
+            {% if loop.index is divisible by(2) or loop.last %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="panel-body post-tags">
+            {% for tag in poll.categories %}
+                <a class="pointable" href="{{ path('search') }}?tag={{ tag.title }}">#{{ tag.title }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

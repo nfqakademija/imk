@@ -35,9 +35,9 @@ class HomeController extends Controller
      */
     public function viewAction($id)
     {
-        $polls = $this->getDoctrine()->getRepository('AppBundle:Poll')->find($id);
-        return $this->render('AppBundle:Home:index.html.twig', [
-            'polls' => $polls
+        $poll = $this->getDoctrine()->getRepository('AppBundle:Poll')->find($id);
+        return $this->render('AppBundle:Home:singlePost.html.twig', [
+            'poll' => $poll
         ]);
     }
 
