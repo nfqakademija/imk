@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin")
@@ -79,19 +81,51 @@ class AdminController extends Controller
     public function postsIndexAction()
     {
         // Admin panel: post (Decision) index page
-        return $this->render('AppBundle:Admin:posts_index.html.twig', [
+        $em = $this->getDoctrine()->getRepository('AppBundle:Poll');
+        $polls = $em->findBy([], ['createDate' => 'DESC'], 10);
 
+        return $this->render('AppBundle:Admin:posts_index.html.twig', [
+            'polls' => $polls
         ]);
     }
 
     /**
-     * @Route("/remove/{id}", name="admin_post_remove")
+     * @Route("/remove", name="admin_post_remove")
      */
-    public function removePostAction($id)
+    public function removePostAction(Request $request)
     {
         // Admin panel: post (Decision) removal interface
-        return $this->render('AppBundle:Admin:remove_post.html.twig', [
-            'id' => $id
+        $pollId = $request->query->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Poll');
+        $path = $this->getParameter('image_directory').'/';
+
+        if (!$pollId) {
+            return new JsonResponse([
+                'error' => 'No input data received.'
+            ]);
+        }
+
+        $poll = $repository->find($pollId);
+        if (!$poll) {
+            return new JsonResponse([
+                'error' => 'Poll with id ' . $pollId . ' not found'
+            ]);
+        }
+
+        foreach ($poll->getImages() as $image) {
+            $imageName = $image->getContent();
+            if (file_exists($path.$imageName)) {
+                unlink($path.$imageName);
+            }
+
+            $em->remove($image);
+        }
+
+        $em->remove($poll);
+        $em->flush();
+        return new JsonResponse([
+            'status' => 'Poll '.$pollId.' deleted.'
         ]);
     }
 }
