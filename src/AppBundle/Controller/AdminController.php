@@ -18,8 +18,13 @@ class AdminController extends Controller
     public function indexAction()
     {
         // Admin panel: index page
+        $em = $this->getDoctrine()->getRepository('AppBundle:Poll');
+        $polls = $em->findBy([], ['createDate' => 'DESC'], 10);
+        $pollCount = $em->allPostCount();
+
         return $this->render('AppBundle:Admin:index.html.twig', [
-            // ...
+            'polls' => $polls,
+            'pollCount' => $pollCount
         ]);
     }
 
@@ -47,6 +52,7 @@ class AdminController extends Controller
         // Admin panel: user editing panel
         // Form to change the following user data:
         // password, email...
+
         return $this->render('AppBundle:Admin:users_index.html.twig', [
 
         ]);
