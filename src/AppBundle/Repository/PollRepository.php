@@ -29,4 +29,12 @@ class PollRepository extends EntityRepository
             ->distinct()
             ->getQuery()->getResult();
     }
+
+    public function allPostCount()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('count(p.pollId)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

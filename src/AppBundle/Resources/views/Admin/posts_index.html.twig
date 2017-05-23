@@ -1,78 +1,36 @@
 {% extends "AppBundle:Admin:index.html.twig" %}
-
+{% block page_title %}Polls{% endblock %}
 {% block page_content %}
     <ul class="timeline">
+        {% for poll in polls %}
 
-        <li class="time-label">
+        <li class="time-label poll-{{ poll.pollId }}">
                   <span class="bg-green">
-                    6 Jan. 2017
+                    {#6 Jan. 2017#}
+                      {{ poll.createDate|date("d F Y H:i:s") }}
                   </span>
         </li>
 
-        <li>
+        <li class="poll-{{ poll.pollId }}">
             <i class="fa fa-camera bg-purple"></i>
 
             <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
+                <span class="time"><i class="fa fa-clock-o"></i> {{ poll.createDate|time_diff|replace({'minutes': 'min', 'ago': ''}) }}</span>
 
-                <h3 class="timeline-header"><a href="#">User 1</a> uploaded new decision</h3>
+                <h3 class="timeline-header"><a href="#">Anonymous user</a> uploaded new poll</h3>
 
                 <div class="timeline-body">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
+                    {% for image in poll.images %}
+                    <img src="../images/{{ image.content }}" alt="..." class="margin" style="width: 150px; height: auto;">
+                    {% endfor %}
                 </div>
                 <div class="timeline-footer">
-                    <a href="{{ path('admin_post_remove', {id:1}) }}" class="btn btn-danger btn-xs">Delete</a>
+                    <a id="{{ poll.pollId }}" class="btn btn-danger btn-xs">Delete</a>
                 </div>
             </div>
         </li>
 
-        <li class="time-label">
-                  <span class="bg-green">
-                    4 Jan. 2017
-                  </span>
-        </li>
-
-        <li>
-            <i class="fa fa-camera bg-purple"></i>
-
-            <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
-                <h3 class="timeline-header"><a href="#">User 3</a> uploaded new decision</h3>
-
-                <div class="timeline-body">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                </div>
-
-                <div class="timeline-footer">
-                    <a href="{{ path('admin_post_remove', {id:3}) }}" class="btn btn-danger btn-xs">Delete</a>
-                </div>
-            </div>
-        </li>
-
-        <li>
-            <i class="fa fa-camera bg-purple"></i>
-
-            <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
-                <h3 class="timeline-header"><a href="#">User 2</a> uploaded new decision</h3>
-
-                <div class="timeline-body">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                </div>
-
-                <div class="timeline-footer">
-                    <a href="{{ path('admin_post_remove', {id:2}) }}" class="btn btn-danger btn-xs">Delete</a>
-                </div>
-            </div>
-        </li>
+        {% endfor %}
 
         <li>
             <i class="fa fa-clock-o bg-gray"></i>
@@ -80,4 +38,30 @@
     </ul>
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("a.btn-danger").click(function () {
+            var pollId = $(this).attr("id");
+            var clickedButton = $(this);
 
+            $.get("{{ path('admin_post_remove') }}", { id: pollId}, function (data) {
+                if (!data.error){
+                    clickedButton.removeClass('btn-danger');
+                    clickedButton.addClass('btn-success');
+                    clickedButton.removeAttr('href');
+                    clickedButton.html('Removed');
+                    setTimeout(function () {
+                        $(".poll-"+pollId).remove();
+                    }, 2000);
+                } else {
+                    clickedButton.removeAttr('href');
+                    clickedButton.html(data.error);
+                }
+            });
+
+
+
+        });
+    </script>
+{% endblock %}
