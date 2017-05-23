@@ -1,5 +1,5 @@
 {% extends '::base.html.twig' %}
-{% block title %} Main - {{ parent() }}{% endblock %}
+{% block title %} {{ poll.title }} - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -25,8 +25,7 @@
     <div class="panel panel-default center-block">
         <div class="panel-heading">
             <ul class="list-inline">
-                <li class="user-name"><a>User123:</a></li>
-                <li><a href="{{ path('view', {'id': poll.pollId}) }}">{{ poll.title }}</a></li>
+                <li class="user-name"><a href="{{ path('view', {'id': poll.pollId}) }}">{{ poll.title }}</a></li>
                 <li class="pull-right post-time">{{ poll.createDate|time_diff|replace({'minutes': 'min', 'ago': ''}) }}</li>
             </ul>
         </div>
