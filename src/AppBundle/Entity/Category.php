@@ -55,6 +55,11 @@ class Category
         $this->polls[] = $poll;
     }
 
+    public function removePoll(Poll $poll)
+    {
+        $this->polls->removeElement($poll);
+    }
+
     /**
      * Set title
      *

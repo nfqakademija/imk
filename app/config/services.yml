@@ -15,6 +15,10 @@ services:
     class: AppBundle\Services\PostUploader
     arguments: [ '@doctrine.orm.default_entity_manager', '@app.fileuploader' ]
 
+  app.voter:
+    class: AppBundle\Services\Voter
+    arguments: ['@doctrine.orm.default_entity_manager']
+
   app.twig.extension.date:
     class: Twig_Extensions_Extension_Date
     tags:

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PollVoter
  *
- * @ORM\Table(name="PollsVoters", indexes={@ORM\Index(name="pollId", columns={"pollId"}), @ORM\Index(name="voterId", columns={"voterId"})})
+ * @ORM\Table(name="PollsVoters", indexes={@ORM\Index(name="pollId", columns={"pollId"})})
  * @ORM\Entity
  */
 class PollVoter
@@ -39,7 +39,7 @@ class PollVoter
     /**
      * @var \AppBundle\Entity\Poll
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll", inversedBy="voters")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })
@@ -47,15 +47,11 @@ class PollVoter
     private $pollId;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="voterId", referencedColumnName="userId")
-     * })
+     * @ORM\Column(name="userAgent", type="string", length=255)
      */
-    private $voterId;
-
+    private $userAgent;
 
 
     /**
@@ -140,28 +136,28 @@ class PollVoter
         return $this->pollId;
     }
 
+
     /**
-     * Set voterId
+     * Set userAgent
      *
-     * @param \AppBundle\Entity\User $voterId
+     * @param string $userAgent
      *
      * @return PollVoter
      */
-    public function setVoterId(\AppBundle\Entity\User $voterId = null)
+    public function setUserAgent($userAgent)
     {
-        $this->voterId = $voterId;
+        $this->userAgent = $userAgent;
 
         return $this;
     }
 
     /**
-     * Get voterId
+     * Get userAgent
      *
-     * @return \AppBundle\Entity\User
+     * @return string
      */
-    public function getVoterId()
+    public function getUserAgent()
     {
-        return $this->voterId;
+        return $this->userAgent;
     }
 }
-// @codingStandardsIgnoreEnd
