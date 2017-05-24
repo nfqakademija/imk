@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 // @codingStandardsIgnoreStart
 /**
@@ -73,12 +74,11 @@ class Poll
     private $images;
 
     /**
-     * Set createDate
+     * @var \Doctrine\Common\Collections\ArrayCollection $voters
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PollVoter", mappedBy="pollId")
      *
-     * @param integer $createDate
-     *
-     * @return Poll
      */
+    private $voters;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Category", inversedBy="polls")
@@ -96,12 +96,18 @@ class Poll
     {
         $this->images = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->voters = new PersistentCollection();
     }
 
     public function addCategory(Category $category)
     {
         $category->addPoll($this);
         $this->categories[] = $category;
+    }
+
+    public function removeCategory(Category $category)
+    {
+        $category->removePoll($this);
     }
 
     public function setCreateDate($createDate)
@@ -270,5 +276,15 @@ class Poll
     {
         return $this->categories;
     }
+
+    /**
+     * @return PersistentCollection
+     */
+    public function getVoters(): PersistentCollection
+    {
+        return $this->voters;
+    }
+
+
 }
 // @codingStandardsIgnoreEnd

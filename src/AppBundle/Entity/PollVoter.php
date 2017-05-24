@@ -39,7 +39,7 @@ class PollVoter
     /**
      * @var \AppBundle\Entity\Poll
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poll", inversedBy="voters")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pollId", referencedColumnName="pollId")
      * })

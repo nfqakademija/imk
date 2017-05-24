@@ -128,8 +128,17 @@ class AdminController extends Controller
             $em->remove($image);
         }
 
+        foreach ($poll->getVoters() as $voter) {
+            $em->remove($voter);
+        }
+
+        foreach ($poll->getCategories() as $category) {
+            $category->removePoll($poll);
+        }
+
         $em->remove($poll);
         $em->flush();
+
         return new JsonResponse([
             'status' => 'Poll '.$pollId.' deleted.'
         ]);
