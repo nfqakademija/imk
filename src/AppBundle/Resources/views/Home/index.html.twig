@@ -126,19 +126,19 @@
                     }
 
                 });
-                this.on('successmultiple', function(){
-                    completeFiles += 1;
-                    if (completeFiles === totalFiles){
-                        jQuery('<div/>', {
-                        'class': 'alert alert-success',
-                        text: 'Success'
-                    }
-                    ).insertAfter('#myDropzone');
 
-                    setTimeout(function() {
-                      window.location.reload();
-                    }, 1700);
-                    }
+                this.on('successmultiple', function(){
+
+                jQuery('<div/>', {
+                    'class': 'alert alert-success',
+                    text: 'Success'
+                }
+                ).insertAfter('#myDropzone');
+
+                setTimeout(function() {
+                  window.location.reload();
+                }, 1700);
+
 
                 });
 
