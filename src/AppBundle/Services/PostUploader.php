@@ -116,5 +116,4 @@ class PostUploader
     {
         $this->charactersToRemove = $charactersToRemove;
     }
-
 }
