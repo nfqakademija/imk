@@ -12,6 +12,7 @@ class PostUploader
     private $fileUploader;
     private $poll;
     private $sequence;
+    private $charactersToRemove;
 
     /**
      * PostUploader constructor.
@@ -22,6 +23,10 @@ class PostUploader
         $this->fileUploader = $fileUploader;
         $this->poll = new Poll();
         $this->sequence = 1;
+        $this->charactersToRemove = [
+            "!","@","#","$","%","^","&","*","(",")","_", "-", ".",
+            ",", ";",":"
+        ];
     }
 
 
@@ -40,10 +45,12 @@ class PostUploader
             return;
         }
 
+        $title = str_replace($this->charactersToRemove, "", $title);
         $this->poll->setTitle($title);
         $this->poll->setCreateDate(new \DateTime("now"));
         $this->poll->setUpdateDate();
 
+        $categoryNames = str_replace($this->charactersToRemove, "", $categoryNames);
         $categoryNames = array_filter(explode(' ', $categoryNames));
         $categoryNames = array_unique($categoryNames);
 
@@ -93,4 +100,21 @@ class PostUploader
             $this->sequence += 1;
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getCharactersToRemove()
+    {
+        return $this->charactersToRemove;
+    }
+
+    /**
+     * @param array $charactersToRemove
+     */
+    public function setCharactersToRemove($charactersToRemove)
+    {
+        $this->charactersToRemove = $charactersToRemove;
+    }
+
 }
