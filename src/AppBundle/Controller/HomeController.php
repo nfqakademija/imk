@@ -110,30 +110,24 @@ class HomeController extends Controller
      */
     public function voteAction(Request $request)
     {
-        //TODO: restrinct voting by 1 vote per user
-
         $optionId = $request->request->get('optionId');
-        if (!$optionId) {
+        $pollId = $request->request->get('pollId');
+        $userAgent = $request->headers->get('User-Agent');
+        $userIp = $request->getClientIp();
+
+        $voter = $this->get('app.voter');
+        $status = $voter->vote($pollId, $optionId, $userIp, $userAgent);
+
+        if (!$status['success']) {
             return $response = new JsonResponse([
-                'status' => false,
-                'error' => 'No data received.'
+                'success' => false,
+                'error' => $status['error']
             ]);
         }
-        $option = $this->getDoctrine()->getManager()->getRepository('AppBundle:PollOption')->find($optionId);
-        if (!$option) {
-            return $response = new JsonResponse([
-                'status' => false,
-                'error' => 'Vote option not found.'
-            ]);
-        }
-
-        $voteCount = $option->incrementVoteCount();
-
-        $this->getDoctrine()->getManager()->flush();
 
         return $response = new JsonResponse([
             'success' => true,
-            'voteCount' => $voteCount
+            'voteCount' => $status['voteCount']
         ]);
     }
 }
