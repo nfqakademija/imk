@@ -45,7 +45,7 @@
                         {% for tag in poll.categories %}
                         <li><a class="pointable" href="{{ path('search') }}?tag={{ tag.title }}">#{{ tag.title }}</a></li>
                         {% endfor %}
-                        <li class="addthis_inline_share_toolbox_eaw2 pull-right" data-url="{{ url('view', {'id': poll.pollid}) }}"></li>
+                        <li class="addthis_inline_share_toolbox_eaw2 pull-right" data-url="{{ url('view', {'id': poll.pollid}) }}" data-title="{{ poll.title }}"></li>
                     </ul>
                 </div>
             </div>
